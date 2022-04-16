@@ -131,34 +131,22 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="今日も一日お疲れ様でした。" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="9e9-bG-osP">
-                                <rect key="frame" x="20" y="118" width="374" height="675"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <color key="textColor" systemColor="labelColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Lia-gm-0bZ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="iqV-Qs-Gdn" firstAttribute="top" secondItem="Lia-gm-0bZ" secondAttribute="top" constant="10" id="JHa-wl-VGc"/>
-                            <constraint firstItem="Lia-gm-0bZ" firstAttribute="trailing" secondItem="9e9-bG-osP" secondAttribute="trailing" constant="20" id="TuC-bb-9nP"/>
                             <constraint firstItem="iqV-Qs-Gdn" firstAttribute="centerX" secondItem="ilB-FI-B8K" secondAttribute="centerX" id="Tv9-7K-JN7"/>
-                            <constraint firstItem="9e9-bG-osP" firstAttribute="top" secondItem="iqV-Qs-Gdn" secondAttribute="bottom" constant="20" id="fXL-Z1-Ktq"/>
-                            <constraint firstItem="9e9-bG-osP" firstAttribute="leading" secondItem="Lia-gm-0bZ" secondAttribute="leading" constant="20" id="ofD-sy-T57"/>
-                            <constraint firstItem="Lia-gm-0bZ" firstAttribute="bottom" secondItem="9e9-bG-osP" secondAttribute="bottom" constant="20" id="pve-eW-IGG"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="QJX-A1-O5v">
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="uZZ-QU-Bk6">
                             <connections>
-                                <action selector="saveButtonAction:" destination="DGI-wd-koZ" id="v6L-GP-Xax"/>
+                                <segue destination="TXS-i8-FHw" kind="unwind" unwindAction="backToToDoCalendarViewControllerWithSegue:" id="J3g-xp-94m"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="diaryDescriptionTextView" destination="9e9-bG-osP" id="sf2-FZ-ISu"/>
                         <outlet property="selectDateLabel" destination="iqV-Qs-Gdn" id="nJ1-3Y-G6j"/>
                         <segue destination="TXS-i8-FHw" kind="unwind" identifier="exitFromEditBySaveSegue" unwindAction="diaryExitFromEditBySaveSegueWithSegue:" id="cnY-vX-IuP"/>
                     </connections>

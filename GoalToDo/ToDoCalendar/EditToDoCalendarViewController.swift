@@ -12,12 +12,10 @@ class EditToDoCalendarViewController: UIViewController, UITextViewDelegate {
     var pushDateString: String?
     private var pushedDate: Date
     private let repository = RealmRepository()
-    private var toDoList : [ToDoList.ToDoItem] {
+    private var toDoList: [ToDoList.ToDoItem] {
         repository.loadToDoItems(date: pushedDate)
     }
-
     @IBOutlet weak private var selectDateLabel: UILabel!
-    @IBOutlet weak private var diaryDescriptionTextView: UITextView!
     // TODO: TODOリストに変更
     // TODO: 編集データ保存　Repository
     required init?(coder: NSCoder, pushDate: Date) {
@@ -31,12 +29,6 @@ class EditToDoCalendarViewController: UIViewController, UITextViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        diaryDescriptionTextView.delegate = self
-        diaryDescriptionTextView.layer.borderColor = UIColor.black.cgColor
-        diaryDescriptionTextView.layer.borderWidth = 1.0
-        diaryDescriptionTextView.layer.cornerRadius = 10.0
-        diaryDescriptionTextView.layer.masksToBounds = true
         if let pushDate = pushDateString {
             selectDateLabel.text = pushDate
         }
@@ -50,13 +42,7 @@ class EditToDoCalendarViewController: UIViewController, UITextViewDelegate {
             let realm = try! Realm()
             if let savedDiary = realm.objects(DiaryModel.self).filter("calendarDate == '\(self.pushDateString)'").last {
                     let context = savedDiary.diaryText
-                    DispatchQueue.main.async {
-                        self.diaryDescriptionTextView.text = context
-                    }
             }
         }
-    }
-    @IBAction private func saveButtonAction(_ sender: Any) {
-        performSegue(withIdentifier: "exitFromEditBySaveSegue", sender: nil)
     }
 }
