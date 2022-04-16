@@ -103,7 +103,7 @@
                         <barButtonItem key="rightBarButtonItem" image="square.and.pencil" catalog="system" id="8Db-lW-MFs">
                             <connections>
                                 <action selector="editButtonPushed:" destination="Y6W-OH-hqX" id="Ao6-2k-IrO"/>
-                                <segue destination="DGI-wd-koZ" kind="show" identifier="ToDiary" id="qs9-cG-2h4"/>
+                                <segue destination="DGI-wd-koZ" kind="show" identifier="editToDoItem" destinationCreationSelector="makeEditToDoCalenderWithCoder:sender:segueIdentifier:" id="qs9-cG-2h4"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

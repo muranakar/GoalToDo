@@ -31,12 +31,13 @@ final class ToDoCalendarViewController: UIViewController {
 
     // MARK: - 画面遷移
     // TODO: セグエを変更
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ToDiary" {
-            if let editingDiaryView = (segue.destination) as? EditToDoCalendarViewController {
-                editingDiaryView.pushDate = self.pushDateString  // ここでEditingDiaryViewのpushDateに渡してる
-            }
-        }
+    @IBSegueAction
+    func makeEditToDoCalender(
+        coder: NSCoder,
+        sender: Any?,
+        segueIdentifier: String?
+    ) -> EditToDoCalendarViewController? {
+        return .init(coder: coder, pushDate: pushDate)
     }
 }
 
