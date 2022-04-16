@@ -10,84 +10,72 @@ import FSCalendar
 import CalculateCalendarLogic
 import RealmSwift
 
-class WillDiaryViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
-
+final class WillDiaryViewController:
+    UIViewController,
+    FSCalendarDelegate,
+    FSCalendarDataSource,
+    FSCalendarDelegateAppearance {
     let date = Date()
     let df = DateFormatter()
     lazy var pushDate: String = dateFormatter.string(from: date)
-    
     private let gregorian = Calendar(identifier: .gregorian)
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-
         formatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "ydMMM", options: 0, locale: Locale(identifier: "ja_JP"))
         return formatter
     }()
-    
     // https://qiita.com/Koutya/items/f5c7c12ab1458b6addcd の記事を参考
     struct AssistCalendar {
         // 祝日判定を行い結果を返すメソッド（True：祝日）
-        func judgeHoliday(_ date : Date) -> Bool {
-            
+        func judgeHoliday(_ date :Date) -> Bool {
             // 祝日判定用のカレンダークラスのインスタンス
             let tmpCalendar = Calendar(identifier: .gregorian)
-            
             // 祝日判定を行う日にちの年、月、日を取得
             let year = tmpCalendar.component(.year, from: date)
             let month = tmpCalendar.component(.month, from: date)
             let day = tmpCalendar.component(.day, from: date)
-            
             // CalculateCalendarLogic(): 祝日判定のインスタンスの生成
             let holiday = CalculateCalendarLogic()
 
             return holiday.judgeJapaneseHoliday(year: year, month: month, day: day)
         }
-        
         // date型 -> 年月日をIntで取得
-        func getDay(_ date:Date) -> (Int,Int,Int) {
+        func getDay(_ date: Date) -> (Int, Int, Int) {
             let tmpCalendar = Calendar(identifier: .gregorian)
             let year = tmpCalendar.component(.year, from: date)
             let month = tmpCalendar.component(.month, from: date)
             let day = tmpCalendar.component(.day, from: date)
-            return (year,month,day)
+            return (year, month, day)
         }
-        
         // 曜日判定（日曜日:1 〜 土曜日:7）
         func getWeekIdx(_ date: Date) -> Int {
             let tmpCalendar = Calendar(identifier: .gregorian)
             return tmpCalendar.component(.weekday, from: date)
         }
     }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
         self.calendarView.delegate = self
         self.calendarView.dataSource = self
-        
         print(date)
         print(pushDate)
-
         DispatchQueue(label: "background").async {
             DispatchQueue.main.async {
                 self.diaryDescriptionTextLabel.text = self.makeDiaryDescription()
             }
         }
     }
-    
-    override func viewWillAppear(_ animated: Bool) { // TODO: 解読
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
-    
-    @IBOutlet weak var calendarView: FSCalendar!
-    @IBOutlet weak var diaryDescriptionTextLabel: UILabel!
-    
-    @IBAction func editButtonPushed(_ sender: Any) {
+
+    @IBOutlet private weak var calendarView: FSCalendar!
+    @IBOutlet private weak var diaryDescriptionTextLabel: UILabel!
+    @IBAction private func editButtonPushed(_ sender: Any) {
         self.performSegue(withIdentifier: "ToDiary", sender: nil)
     }
     
