@@ -6,11 +6,13 @@ PODS:
   - Realm/Headers (10.24.2)
   - RealmSwift (10.24.2):
     - Realm (= 10.24.2)
+  - SwiftLint (0.46.2)
 
 DEPENDENCIES:
   - CalculateCalendarLogic
   - FSCalendar
   - RealmSwift
+  - SwiftLint
 
 SPEC REPOS:
   trunk:
@@ -18,13 +20,15 @@ SPEC REPOS:
     - FSCalendar
     - Realm
     - RealmSwift
+    - SwiftLint
 
 SPEC CHECKSUMS:
   CalculateCalendarLogic: d14189787cd47766e64281b2686608afea07ae4d
   FSCalendar: e6a2eb9c571bf0719ed797ef807e08426753c241
   Realm: c8421eee9ff92b16b4f91a313b5cc695c37c1921
   RealmSwift: 10ed6fa09c36aaaff55e12afdc71802ec3ddb1c0
+  SwiftLint: 6bc52a21f0fd44cab9aa2dc8e534fb9f5e3ec507
 
-PODFILE CHECKSUM: c255e34a1f0546d3d6861f9d695da5d2d1aa6000
+PODFILE CHECKSUM: d19225bbe1f00d0ebf345c89120b83f18ab1e698
 
-COCOAPODS: 1.10.2
+COCOAPODS: 1.11.2

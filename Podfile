@@ -9,4 +9,5 @@ target 'GoalToDo' do
 pod 'RealmSwift'
 pod 'FSCalendar'
 pod 'CalculateCalendarLogic'
+pod 'SwiftLint'
 end
