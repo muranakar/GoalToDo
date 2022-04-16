@@ -11,7 +11,6 @@ class CountDownTimerViewController: UIViewController {
     
     var dyingDate: Date?
     var count = 0
-    var sena = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
