@@ -23,7 +23,6 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.dataSource = self
         tableView.register(UINib(nibName: "ToDoListXibTableViewCell", bundle: nil), forCellReuseIdentifier: "Cell1")
         tableView.backgroundColor = UIColor.clear
-
     }
     
     @IBOutlet weak var tableView: UITableView!
