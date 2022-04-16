@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		51E599EE40CAFC5902CBB884 /* Pods_NewWillDiary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF05ADFC43C53D62AB8B2D83 /* Pods_NewWillDiary.framework */; };
+		ACAFC6A4BF948A3F968606FA /* Pods_GoalToDo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE114205FA25F00954A7FD1C /* Pods_GoalToDo.framework */; };
 		D3629BA427FEB23F0010342D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3629BA327FEB23F0010342D /* AppDelegate.swift */; };
 		D3629BA627FEB23F0010342D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3629BA527FEB23F0010342D /* SceneDelegate.swift */; };
 		D3629BAB27FEB23F0010342D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3629BA927FEB23F0010342D /* Main.storyboard */; };
@@ -29,8 +29,9 @@
 
 /* Begin PBXFileReference section */
 		2C925230B56C1E15091F0EA5 /* Pods-NewWillDiary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewWillDiary.debug.xcconfig"; path = "Target Support Files/Pods-NewWillDiary/Pods-NewWillDiary.debug.xcconfig"; sourceTree = "<group>"; };
+		7E0E4B860C77A11ED54F0AB8 /* Pods-GoalToDo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoalToDo.release.xcconfig"; path = "Target Support Files/Pods-GoalToDo/Pods-GoalToDo.release.xcconfig"; sourceTree = "<group>"; };
 		95A48236359F5D11F797BC08 /* Pods-NewWillDiary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewWillDiary.release.xcconfig"; path = "Target Support Files/Pods-NewWillDiary/Pods-NewWillDiary.release.xcconfig"; sourceTree = "<group>"; };
-		CF05ADFC43C53D62AB8B2D83 /* Pods_NewWillDiary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NewWillDiary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE114205FA25F00954A7FD1C /* Pods_GoalToDo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoalToDo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3629BA027FEB23F0010342D /* GoalToDo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoalToDo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3629BA327FEB23F0010342D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D3629BA527FEB23F0010342D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -50,6 +51,7 @@
 		D3629BC927FEB2F90010342D /* ToDoCalendar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ToDoCalendar.storyboard; sourceTree = "<group>"; };
 		D3629BCB27FEB3020010342D /* ToDoList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ToDoList.storyboard; sourceTree = "<group>"; };
 		D3629BCD27FEB32E0010342D /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		E597B21B22555020A2F74E55 /* Pods-GoalToDo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoalToDo.debug.xcconfig"; path = "Target Support Files/Pods-GoalToDo/Pods-GoalToDo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				51E599EE40CAFC5902CBB884 /* Pods_NewWillDiary.framework in Frameworks */,
+				ACAFC6A4BF948A3F968606FA /* Pods_GoalToDo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +146,8 @@
 			children = (
 				2C925230B56C1E15091F0EA5 /* Pods-NewWillDiary.debug.xcconfig */,
 				95A48236359F5D11F797BC08 /* Pods-NewWillDiary.release.xcconfig */,
+				E597B21B22555020A2F74E55 /* Pods-GoalToDo.debug.xcconfig */,
+				7E0E4B860C77A11ED54F0AB8 /* Pods-GoalToDo.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -151,7 +155,7 @@
 		F09A02A07033B2B4B5BA2733 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CF05ADFC43C53D62AB8B2D83 /* Pods_NewWillDiary.framework */,
+				CE114205FA25F00954A7FD1C /* Pods_GoalToDo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -235,15 +239,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NewWillDiary/Pods-NewWillDiary-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-GoalToDo/Pods-GoalToDo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NewWillDiary/Pods-NewWillDiary-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-GoalToDo/Pods-GoalToDo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NewWillDiary/Pods-NewWillDiary-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GoalToDo/Pods-GoalToDo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B0DE71C24FD651AED030B47B /* [CP] Check Pods Manifest.lock */ = {
@@ -261,7 +265,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-NewWillDiary-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-GoalToDo-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -426,7 +430,7 @@
 		};
 		D3629BB527FEB2410010342D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2C925230B56C1E15091F0EA5 /* Pods-NewWillDiary.debug.xcconfig */;
+			baseConfigurationReference = E597B21B22555020A2F74E55 /* Pods-GoalToDo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -456,7 +460,7 @@
 		};
 		D3629BB627FEB2410010342D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 95A48236359F5D11F797BC08 /* Pods-NewWillDiary.release.xcconfig */;
+			baseConfigurationReference = 7E0E4B860C77A11ED54F0AB8 /* Pods-GoalToDo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
