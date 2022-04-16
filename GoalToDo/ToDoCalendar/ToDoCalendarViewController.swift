@@ -33,14 +33,14 @@ final class ToDoCalendarViewController: UIViewController {
     // TODO: セグエを変更
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToDiary" {
-            if let editingDiaryView = (segue.destination) as? EditingDiaryViewController {
+            if let editingDiaryView = (segue.destination) as? EditToDoCalendarViewController {
                 editingDiaryView.pushDate = self.pushDateString  // ここでEditingDiaryViewのpushDateに渡してる
             }
         }
     }
 }
 
-extension WillDiaryViewController: FSCalendarDelegate,
+extension ToDoCalendarViewController: FSCalendarDelegate,
                                    FSCalendarDataSource {
     func calendar(
         _ calendar: FSCalendar,
@@ -54,7 +54,7 @@ extension WillDiaryViewController: FSCalendarDelegate,
     }
 }
 
-extension WillDiaryViewController: FSCalendarDelegateAppearance {
+extension ToDoCalendarViewController: FSCalendarDelegateAppearance {
     // https://qiita.com/Koutya/items/f5c7c12ab1458b6addcd の記事を参考
     func calendar(
         _ calendar: FSCalendar,
@@ -79,7 +79,7 @@ extension WillDiaryViewController: FSCalendarDelegateAppearance {
     }
 }
 
-extension WillDiaryViewController: UITableViewDataSource {
+extension ToDoCalendarViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         1
     }
@@ -105,7 +105,7 @@ extension WillDiaryViewController: UITableViewDataSource {
     }
 }
 
-extension WillDiaryViewController: UITableViewDelegate {
+extension ToDoCalendarViewController: UITableViewDelegate {
 }
 
 // https://qiita.com/Koutya/items/f5c7c12ab1458b6addcd の記事を参考
