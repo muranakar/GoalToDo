@@ -9,82 +9,52 @@ import UIKit
 import FSCalendar
 import CalculateCalendarLogic
 
-
-final class WillDiaryViewController: UIViewController,
-    FSCalendarDelegate,
-    FSCalendarDataSource,
-    FSCalendarDelegateAppearance {
-
-    let repository = RealmRepository()
-    var toDoItems: [ToDoList.ToDoItem] {
-        repository.loadToDoItems(date: date)
+final class WillDiaryViewController: UIViewController {
+    private let repository = RealmRepository()
+    private var pushDateToDoItem: [ToDoList.ToDoItem] {
+        repository.loadToDoItems(date: pushDate)
     }
 
-    let date = Date()
-    lazy var pushDate: String = DateFormatter.calendrDateFormatter().string(from: date)
+    var pushDate = Date()
+    var pushDateString: String { DateFormatter.calendrDateFormatter().string(from: pushDate) }
     private let gregorian = Calendar(identifier: .gregorian)
 
     @IBOutlet private weak var calendarView: FSCalendar!
     @IBAction private func editButtonPushed(_ sender: Any) {
         self.performSegue(withIdentifier: "ToDiary", sender: nil)
     }
-    @IBOutlet weak var toDoItemsTableView: UITableView!
+    @IBOutlet private weak var toDoItemsTableView: UITableView!
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.calendarView.delegate = self
-        self.calendarView.dataSource = self
-    }
     // 以降 https://qiita.com/shxun6934/items/e4e6e81cecf68b22bdc3 の記事を参考
-    func makeDiaryDescription () -> String { // TODO: メソッド名の変更
-        let realm = try! Realm()
-        guard let savedDiary = realm.objects(DiaryModel.self).filter("calendarDate == '\(self.pushDate)'").last else {
-            return pushDate
+
+    // MARK: - 画面遷移
+    // TODO: セグエを変更
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ToDiary" {
+            if let editingDiaryView = (segue.destination) as? EditingDiaryViewController {
+                editingDiaryView.pushDate = self.pushDateString  // ここでEditingDiaryViewのpushDateに渡してる
+            }
         }
-        let diaryDescription = savedDiary.diaryText
-        return diaryDescription
     }
-    
+}
+
+extension WillDiaryViewController: FSCalendarDelegate,
+                                   FSCalendarDataSource {
     func calendar(
         _ calendar: FSCalendar,
         didSelect date: Date,
         at monthPosition: FSCalendarMonthPosition
-    ) { // TODO: 解読
-        let selectDay = AssistCalendar().getDay(date)
-        print(date)
-        print(selectDay)
-        pushDate = dateFormatter.string(from: date)
-        DispatchQueue(label: "background").async {
-            DispatchQueue.main.async {
-                self.diaryDescriptionTextLabel.text = self.makeDiaryDescription()
-            }
-        }
+    ) {
+        pushDate = date
+        print(pushDate)
+        print(pushDateString)
+        toDoItemsTableView.reloadData()
     }
-    @IBAction func diaryExitFromEditBySaveSegue(segue: UIStoryboardSegue) { // TODO: 解読
-        if let add = segue.source as? EditingDiaryViewController {
-            let realm = try! Realm() // Realmの初期化
-            let diary = DiaryModel() // モデルのインスタンス化
+}
 
-            diary.calendarDate = pushDate
-            diary.diaryText = add.diaryDescriptionTextView.text
-            self.diaryDescriptionTextLabel.text = diary.diaryText
-            try! realm.write {
-                realm.add(diary)// Realmに追加
-            }
-        }
-    }
-    // MARK: - 画面遷移
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) { // TODO: 解読
-        if segue.identifier == "ToDiary" {
-            if let editingDiaryView = (segue.destination) as? EditingDiaryViewController {
-                editingDiaryView.pushDate = self.pushDate  // ここでEditingDiaryViewのpushDateに渡してる
-            }
-        }
-    }
-
-    // MARK: - function
+extension WillDiaryViewController: FSCalendarDelegateAppearance{
     // https://qiita.com/Koutya/items/f5c7c12ab1458b6addcd の記事を参考
     func calendar(
         _ calendar: FSCalendar,
@@ -102,15 +72,41 @@ final class WillDiaryViewController: UIViewController,
         let weekday = AssistCalendar().getWeekIdx(date)
         if weekday == 1 { // 日曜日
             return UIColor.red
-        }
-        else if weekday == 7 { // 土曜日
+        } else if weekday == 7 { // 土曜日
             return UIColor.blue
-         }
+        }
         return nil
     }
-
 }
 
+extension WillDiaryViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch indexPath.row {
+        case 0:
+            let pushDateCell = tableView.dequeueReusableCell(
+                withIdentifier: "pushDateCell",
+                for: indexPath
+            ) as! PushDateTableViewCell
+            pushDateCell.configure(labelText: pushDateString)
+            return pushDateCell
+        default:
+            let toDOItemCell = tableView.dequeueReusableCell(
+                withIdentifier: "toDoItemCell",
+                for: indexPath
+            ) as! ToDoItemTableViewCell
+            // TODO: ToDoItemのisCheckがfalseのときに、Labelを非表示にする設定をする必要がある。
+            toDOItemCell.configure(labelText: pushDateToDoItem[indexPath.row - 1].toDoText)
+            return toDOItemCell
+        }
+    }
+}
+
+extension WillDiaryViewController: UITableViewDelegate {
+}
 
 // https://qiita.com/Koutya/items/f5c7c12ab1458b6addcd の記事を参考
 private  struct AssistCalendar {
@@ -128,6 +124,7 @@ private  struct AssistCalendar {
         return holiday.judgeJapaneseHoliday(year: year, month: month, day: day)
     }
     // date型 -> 年月日をIntで取得
+    // swiftlint:disable:next large_tuple
     func getDay(_ date: Date) -> (Int, Int, Int) {
         let tmpCalendar = Calendar(identifier: .gregorian)
         let year = tmpCalendar.component(.year, from: date)
@@ -141,7 +138,7 @@ private  struct AssistCalendar {
         return tmpCalendar.component(.weekday, from: date)
     }
 }
-extension DateFormatter {
+private extension DateFormatter {
     static func calendrDateFormatter() -> Self {
         let formatter = DateFormatter()
         formatter.dateFormat = DateFormatter.dateFormat(

@@ -12,7 +12,8 @@ class EditingDiaryViewController: UIViewController, UITextViewDelegate {
     var pushDate: String?
     @IBOutlet weak private var selectDateLabel: UILabel!
     @IBOutlet weak private var diaryDescriptionTextView: UITextView!
-
+    // TODO: TODOリストに変更
+    // TODO: 編集データ保存　Repository
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -21,17 +22,16 @@ class EditingDiaryViewController: UIViewController, UITextViewDelegate {
         diaryDescriptionTextView.layer.borderWidth = 1.0
         diaryDescriptionTextView.layer.cornerRadius = 10.0
         diaryDescriptionTextView.layer.masksToBounds = true
-        
         if let pushDate = pushDate {
             selectDateLabel.text = pushDate
         }
     }
-    override func viewWillAppear(_ animated: Bool) { // TODO: 解読
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let pushDate = pushDate {
             selectDateLabel.text = pushDate
         }
-        DispatchQueue(label: "background").async { // TODO: 解読
+        DispatchQueue(label: "background").async {
             let realm = try! Realm()
             if let savedDiary = realm.objects(DiaryModel.self).filter("calendarDate == '\(self.pushDate!)'").last {
                     let context = savedDiary.diaryText
@@ -41,9 +41,7 @@ class EditingDiaryViewController: UIViewController, UITextViewDelegate {
             }
         }
     }
-    @IBAction func saveButtonAction(_ sender: Any) {
+    @IBAction private func saveButtonAction(_ sender: Any) {
         performSegue(withIdentifier: "exitFromEditBySaveSegue", sender: nil)
     }
-
-    // TODO:編集データ保存　Repository
 }
