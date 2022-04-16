@@ -9,13 +9,12 @@ import UIKit
 import RealmSwift
 
 class EditingDiaryViewController: UIViewController, UITextViewDelegate {
-
-    
     var pushDate: String?
-    
+    @IBOutlet weak private var selectDateLabel: UILabel!
+    @IBOutlet weak private var diaryDescriptionTextView: UITextView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
         diaryDescriptionTextView.delegate = self
         diaryDescriptionTextView.layer.borderColor = UIColor.black.cgColor
@@ -27,17 +26,13 @@ class EditingDiaryViewController: UIViewController, UITextViewDelegate {
             selectDateLabel.text = pushDate
         }
     }
-
     override func viewWillAppear(_ animated: Bool) { // TODO: 解読
         super.viewWillAppear(animated)
-
         if let pushDate = pushDate {
             selectDateLabel.text = pushDate
         }
-        
         DispatchQueue(label: "background").async { // TODO: 解読
             let realm = try! Realm()
-
             if let savedDiary = realm.objects(DiaryModel.self).filter("calendarDate == '\(self.pushDate!)'").last {
                     let context = savedDiary.diaryText
                     DispatchQueue.main.async {
@@ -46,10 +41,6 @@ class EditingDiaryViewController: UIViewController, UITextViewDelegate {
             }
         }
     }
-    
-    @IBOutlet weak var selectDateLabel: UILabel!
-    @IBOutlet weak var diaryDescriptionTextView: UITextView!
-    
     @IBAction func saveButtonAction(_ sender: Any) {
         performSegue(withIdentifier: "exitFromEditBySaveSegue", sender: nil)
     }

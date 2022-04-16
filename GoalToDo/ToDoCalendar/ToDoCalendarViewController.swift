@@ -10,24 +10,27 @@ import FSCalendar
 import CalculateCalendarLogic
 import RealmSwift
 
-final class WillDiaryViewController:
-    UIViewController,
+final class WillDiaryViewController: UIViewController,
     FSCalendarDelegate,
     FSCalendarDataSource,
     FSCalendarDelegateAppearance {
     let date = Date()
-    let df = DateFormatter()
+    let dateformatter = DateFormatter()
     lazy var pushDate: String = dateFormatter.string(from: date)
     private let gregorian = Calendar(identifier: .gregorian)
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "ydMMM", options: 0, locale: Locale(identifier: "ja_JP"))
+        formatter.dateFormat = DateFormatter.dateFormat(
+            fromTemplate: "ydMMM",
+            options: 0,
+            locale: Locale(identifier: "ja_JP")
+        )
         return formatter
     }()
     // https://qiita.com/Koutya/items/f5c7c12ab1458b6addcd の記事を参考
     struct AssistCalendar {
         // 祝日判定を行い結果を返すメソッド（True：祝日）
-        func judgeHoliday(_ date :Date) -> Bool {
+        func judgeHoliday(_ date: Date) -> Bool {
             // 祝日判定用のカレンダークラスのインスタンス
             let tmpCalendar = Calendar(identifier: .gregorian)
             // 祝日判定を行う日にちの年、月、日を取得
@@ -78,14 +81,15 @@ final class WillDiaryViewController:
     @IBAction private func editButtonPushed(_ sender: Any) {
         self.performSegue(withIdentifier: "ToDiary", sender: nil)
     }
-    
     // https://qiita.com/Koutya/items/f5c7c12ab1458b6addcd の記事を参考
-    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
-        
+    func calendar(
+        _ calendar: FSCalendar,
+        appearance: FSCalendarAppearance,
+        titleDefaultColorFor date: Date
+    ) -> UIColor? {
         // 曜日タイトルの色変更（土曜は青、日曜は赤）
         calendarView.calendarWeekdayView.weekdayLabels[0].textColor = UIColor.red
         calendarView.calendarWeekdayView.weekdayLabels[6].textColor = UIColor.blue
-        
         // 祝日判定をする（祝日は赤色で表示する）
         if AssistCalendar().judgeHoliday(date) {
             return UIColor.red
@@ -95,50 +99,43 @@ final class WillDiaryViewController:
         if weekday == 1 { // 日曜日
             return UIColor.red
         }
-        
         else if weekday == 7 { // 土曜日
             return UIColor.blue
          }
         return nil
     }
-    
     // 以降 https://qiita.com/shxun6934/items/e4e6e81cecf68b22bdc3 の記事を参考
     func makeDiaryDescription () -> String { // TODO: メソッド名の変更
-        
         let realm = try! Realm()
-
         guard let savedDiary = realm.objects(DiaryModel.self).filter("calendarDate == '\(self.pushDate)'").last else {
             return pushDate
         }
-        
         let diaryDescription = savedDiary.diaryText
         return diaryDescription
     }
-    
-    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) { // TODO: 解読
- 
+    func calendar(
+        _ calendar: FSCalendar,
+        didSelect date: Date,
+        at monthPosition: FSCalendarMonthPosition
+    ) { // TODO: 解読
         let selectDay = AssistCalendar().getDay(date)
         print(date)
         print(selectDay)
         pushDate = dateFormatter.string(from: date)
-        
         DispatchQueue(label: "background").async {
             DispatchQueue.main.async {
                 self.diaryDescriptionTextLabel.text = self.makeDiaryDescription()
             }
         }
     }
-    
     @IBAction func diaryExitFromEditBySaveSegue(segue: UIStoryboardSegue) { // TODO: 解読
         if let add = segue.source as? EditingDiaryViewController {
-            
             let realm = try! Realm() // Realmの初期化
             let diary = DiaryModel() // モデルのインスタンス化
 
             diary.calendarDate = pushDate
             diary.diaryText = add.diaryDescriptionTextView.text
             self.diaryDescriptionTextLabel.text = diary.diaryText
-            
             try! realm.write {
                 realm.add(diary)// Realmに追加
             }
@@ -146,7 +143,7 @@ final class WillDiaryViewController:
     }
     // 画面遷移の処理
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { // TODO: 解読
-        if (segue.identifier == "ToDiary") {
+        if segue.identifier == "ToDiary" {
             if let editingDiaryView = (segue.destination) as? EditingDiaryViewController {
                 editingDiaryView.pushDate = self.pushDate  // ここでEditingDiaryViewのpushDateに渡してる
             }
