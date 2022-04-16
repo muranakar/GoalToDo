@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fls-sd-rDn">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--時計-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController id="Y6W-OH-hqX" customClass="CountDownTimerViewController" customModule="NewWillDiary" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="22508750" translatesAutoresizingMaskIntoConstraints="NO" id="uso-W1-MOU">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q7n-Qw-DCs">
+                                <rect key="frame" x="207" y="448" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="uso-W1-MOU" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="4UY-Rk-abe"/>
+                            <constraint firstItem="uso-W1-MOU" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="F74-cz-1TT"/>
+                            <constraint firstItem="q7n-Qw-DCs" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="UFS-D8-bWv"/>
+                            <constraint firstAttribute="bottom" secondItem="uso-W1-MOU" secondAttribute="bottom" id="dOk-uD-hO5"/>
+                            <constraint firstItem="q7n-Qw-DCs" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="lql-O6-8pv"/>
+                            <constraint firstItem="uso-W1-MOU" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="odK-rk-B19"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="時計" image="timer" catalog="system" selectedImage="timer" id="GFJ-E7-MBy"/>
+                    <navigationItem key="navigationItem" id="E5h-II-LR4">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="gearshape" catalog="system" id="TDZ-Fe-7Hk">
+                            <connections>
+                                <segue destination="cyR-ku-M0E" kind="show" identifier="ToEditingTimer" id="QJ2-jT-ZcQ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="countDownLabel" destination="q7n-Qw-DCs" id="rYW-lR-sWP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="926.08695652173924" y="87.723214285714278"/>
+        </scene>
+        <!--Editing Timer View Controller-->
+        <scene sceneID="MGZ-bV-kpo">
+            <objects>
+                <viewController id="cyR-ku-M0E" customClass="EditingTimerViewController" customModule="NewWillDiary" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="M6q-jG-qhh">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="最期の日を選択してください" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V3F-oL-TMd">
+                                <rect key="frame" x="0.0" y="108" width="414" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="wheels" translatesAutoresizingMaskIntoConstraints="NO" id="dKm-R6-WQE">
+                                <rect key="frame" x="0.0" y="149" width="414" height="216"/>
+                            </datePicker>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ULy-am-6rx">
+                                <rect key="frame" x="180.5" y="415" width="53" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="決定"/>
+                                <connections>
+                                    <action selector="decisionButtonAciton:" destination="cyR-ku-M0E" eventType="touchUpInside" id="sAs-5F-9Jl"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="abI-T7-A5B"/>
+                        <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="abI-T7-A5B" firstAttribute="trailing" secondItem="V3F-oL-TMd" secondAttribute="trailing" id="5ys-yW-Asb"/>
+                            <constraint firstItem="V3F-oL-TMd" firstAttribute="top" secondItem="abI-T7-A5B" secondAttribute="top" constant="20" id="9MN-KJ-boy"/>
+                            <constraint firstItem="V3F-oL-TMd" firstAttribute="leading" secondItem="abI-T7-A5B" secondAttribute="leading" id="9tH-ur-cKs"/>
+                            <constraint firstItem="abI-T7-A5B" firstAttribute="trailing" secondItem="dKm-R6-WQE" secondAttribute="trailing" id="RYK-sy-3Jo"/>
+                            <constraint firstItem="dKm-R6-WQE" firstAttribute="top" secondItem="V3F-oL-TMd" secondAttribute="bottom" constant="20" id="SSj-ta-9g3"/>
+                            <constraint firstItem="ULy-am-6rx" firstAttribute="centerX" secondItem="M6q-jG-qhh" secondAttribute="centerX" id="XkB-N6-Bnf"/>
+                            <constraint firstItem="dKm-R6-WQE" firstAttribute="leading" secondItem="M6q-jG-qhh" secondAttribute="leading" id="hcq-bt-Ye2"/>
+                            <constraint firstItem="ULy-am-6rx" firstAttribute="top" secondItem="dKm-R6-WQE" secondAttribute="bottom" constant="50" id="zom-Ok-LN6"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="67i-Fp-4yX"/>
+                    <connections>
+                        <outlet property="dyingDatePicker" destination="dKm-R6-WQE" id="Pxt-73-yyh"/>
+                        <segue destination="xNw-sP-LqW" kind="unwind" identifier="exitFromEditByBackSegue" unwindAction="exitFromEditByBackSegueWithSegue:" id="AKs-c5-JSD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1Qi-n1-sHg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="xNw-sP-LqW" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1678" y="92"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="xpy-uD-bq6">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fls-sd-rDn" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="W5I-Kn-ycg">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="73x-Yo-Ryk"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I2J-DB-SGr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="18.840579710144929" y="87.723214285714278"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="22508750" width="2133" height="1200"/>
+        <image name="gearshape" catalog="system" width="128" height="121"/>
+        <image name="timer" catalog="system" width="128" height="121"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

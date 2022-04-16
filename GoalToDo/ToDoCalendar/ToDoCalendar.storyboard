@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ONr-W0-skW">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--カレンダー-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController id="Y6W-OH-hqX" customClass="WillDiaryViewController" customModule="NewWillDiary" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qdh-nT-SsT" customClass="FSCalendar">
+                                <rect key="frame" x="0.0" y="93" width="414" height="300"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="iSp-rm-PGs"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="weekdayTextColor">
+                                        <color key="value" systemColor="labelColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="headerTitleColor">
+                                        <color key="value" systemColor="labelColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="USm-qX-ELs">
+                                <rect key="frame" x="30" y="398" width="354" height="410"/>
+                                <fontDescription key="fontDescription" name="Palatino-Roman" family="Palatino" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" red="0.95073508039999999" green="0.96014829899999998" blue="0.96014829899999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="USm-qX-ELs" secondAttribute="bottom" constant="5" id="E1h-sq-1YW"/>
+                            <constraint firstItem="USm-qX-ELs" firstAttribute="top" secondItem="Qdh-nT-SsT" secondAttribute="bottom" constant="5" id="HVl-P4-0x4"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Qdh-nT-SsT" secondAttribute="trailing" id="dTm-tR-czZ"/>
+                            <constraint firstItem="Qdh-nT-SsT" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="kmw-dV-ZfH"/>
+                            <constraint firstItem="USm-qX-ELs" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="30" id="lep-Yf-WQk"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="USm-qX-ELs" secondAttribute="trailing" constant="30" id="sOf-WW-0fP"/>
+                            <constraint firstItem="Qdh-nT-SsT" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="5" id="xQP-hQ-z2S"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="カレンダー" image="calendar" catalog="system" id="x3J-Y8-FEa"/>
+                    <navigationItem key="navigationItem" id="e9u-CD-t6e">
+                        <barButtonItem key="rightBarButtonItem" image="square.and.pencil" catalog="system" id="8Db-lW-MFs">
+                            <connections>
+                                <action selector="editButtonPushed:" destination="Y6W-OH-hqX" id="Ao6-2k-IrO"/>
+                                <segue destination="DGI-wd-koZ" kind="show" identifier="ToDiary" id="qs9-cG-2h4"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="calendarView" destination="Qdh-nT-SsT" id="nja-PD-aPz"/>
+                        <outlet property="diaryDescriptionTextLabel" destination="USm-qX-ELs" id="4dn-gB-4St"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="926.08695652173924" y="87.723214285714278"/>
+        </scene>
+        <!--Editing Diary View Controller-->
+        <scene sceneID="5US-vi-UmP">
+            <objects>
+                <viewController id="DGI-wd-koZ" customClass="EditingDiaryViewController" customModule="NewWillDiary" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ilB-FI-B8K">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iqV-Qs-Gdn">
+                                <rect key="frame" x="207" y="98" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="今日も一日お疲れ様でした。" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="9e9-bG-osP">
+                                <rect key="frame" x="20" y="118" width="374" height="675"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Lia-gm-0bZ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="iqV-Qs-Gdn" firstAttribute="top" secondItem="Lia-gm-0bZ" secondAttribute="top" constant="10" id="JHa-wl-VGc"/>
+                            <constraint firstItem="Lia-gm-0bZ" firstAttribute="trailing" secondItem="9e9-bG-osP" secondAttribute="trailing" constant="20" id="TuC-bb-9nP"/>
+                            <constraint firstItem="iqV-Qs-Gdn" firstAttribute="centerX" secondItem="ilB-FI-B8K" secondAttribute="centerX" id="Tv9-7K-JN7"/>
+                            <constraint firstItem="9e9-bG-osP" firstAttribute="top" secondItem="iqV-Qs-Gdn" secondAttribute="bottom" constant="20" id="fXL-Z1-Ktq"/>
+                            <constraint firstItem="9e9-bG-osP" firstAttribute="leading" secondItem="Lia-gm-0bZ" secondAttribute="leading" constant="20" id="ofD-sy-T57"/>
+                            <constraint firstItem="Lia-gm-0bZ" firstAttribute="bottom" secondItem="9e9-bG-osP" secondAttribute="bottom" constant="20" id="pve-eW-IGG"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="QJX-A1-O5v">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="uZZ-QU-Bk6">
+                            <connections>
+                                <action selector="saveButtonAction:" destination="DGI-wd-koZ" id="v6L-GP-Xax"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="diaryDescriptionTextView" destination="9e9-bG-osP" id="sf2-FZ-ISu"/>
+                        <outlet property="selectDateLabel" destination="iqV-Qs-Gdn" id="nJ1-3Y-G6j"/>
+                        <segue destination="TXS-i8-FHw" kind="unwind" identifier="exitFromEditBySaveSegue" unwindAction="diaryExitFromEditBySaveSegueWithSegue:" id="cnY-vX-IuP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZRi-w5-La9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="TXS-i8-FHw" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1858" y="88"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="7Uu-lG-3SB">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ONr-W0-skW" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="AzN-PI-z3K">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="KpV-Nx-arh"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cie-Cp-ZDF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="18.840579710144929" y="87.723214285714278"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="calendar" catalog="system" width="128" height="106"/>
+        <image name="square.and.pencil" catalog="system" width="128" height="115"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
