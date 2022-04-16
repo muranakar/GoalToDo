@@ -8,31 +8,12 @@
 import Foundation
 import RealmSwift
 
-struct Goal {
-    var uuidString = UUID().uuidString
-    var goalText: String
-    var goalDate = Date()
-}
-
-struct ToDoList {
-    var uuidString = UUID().uuidString
-    var toDoItems: [ToDoItem]
-    var toDoDate: Date
-
-    struct ToDoItem {
-        var toDoText: String
-        var isCheck: Bool
-        var createdAt: Date
-    }
-}
-
-
 class RealmGoal: Object {
     @objc dynamic var uuidString: String = ""
     @objc dynamic var goalText: String = ""
     @objc dynamic var goalDate: Date = Date()
 
-    convenience init(uuid:UUID,  text: String,goalDate: Date) {
+    convenience init(uuid: UUID, text: String, goalDate: Date) {
         self.init()
         self.uuidString = uuid.uuidString
         self.goalText = text
@@ -47,7 +28,7 @@ class RealmToDoList: Object {
     @objc dynamic var uuidString: String = ""
     var toDoItems = List<RealmToDoItem>()
     @objc dynamic var toDoDate: Date = Date()
-    convenience init(uuid:UUID, toDoDate: Date) {
+    convenience init(uuid: UUID, toDoDate: Date) {
         self.init()
         self.uuidString = uuid.uuidString
         self.toDoDate = toDoDate
@@ -63,13 +44,12 @@ class RealmToDoItem: Object {
     @objc dynamic var createdAt: Date = Date()
     let toDoItems = LinkingObjects(fromType: RealmToDoList.self, property: "toDoItems")
 
-    convenience init(toDoText: String,isCheck: Bool) {
+    convenience init(toDoText: String, isCheck: Bool) {
         self.init()
         self.toDoText = toDoText
         self.isCheck = isCheck
     }
 }
-
 
 private extension Goal {
     init(managedObject: RealmGoal) {
@@ -92,7 +72,9 @@ private extension ToDoList {
         self.uuidString = managedObject.uuidString
         self.toDoDate = managedObject.toDoDate
         let realmToDoItemsArray = Array(managedObject.toDoItems)
-        let toDoItemsArray = realmToDoItemsArray.map{ToDoItem(managedObject: $0)}
+        let toDoItemsArray = realmToDoItemsArray.map {
+            ToDoItem(managedObject: $0)
+        }
         self.toDoItems = toDoItemsArray
     }
 
@@ -100,7 +82,7 @@ private extension ToDoList {
         let realmToDoList = RealmToDoList()
         realmToDoList.uuidString = self.uuidString
         realmToDoList.toDoDate = self.toDoDate
-        let realmToDoItemsArray = self.toDoItems.map{$0.managedObject()}
+        let realmToDoItemsArray = self.toDoItems.map { $0.managedObject() }
         realmToDoList.toDoItems.append(objectsIn: realmToDoItemsArray)
         return realmToDoList
     }
@@ -123,8 +105,7 @@ private extension ToDoList.ToDoItem {
 
 struct RealmRepository {
     private let realm = try! Realm()
-
-    // MARK: -　Goal共通型に関するRepository
+    // MARK: - Goal共通型に関するRepository
     func loadGoal() -> Goal? {
         let realmGoal = realm.objects(RealmGoal.self)
         let realmGoalArray = Array(realmGoal)
@@ -132,13 +113,13 @@ struct RealmRepository {
         guard let goal = goalArray.first else { return nil }
         return goal
     }
-    func appendGoal(goal: Goal){
-        try! realm.write{
+    func appendGoal(goal: Goal) {
+        try! realm.write {
             let realmGoal = goal.managedObject()
             realm.add(realmGoal)
         }
     }
-    func updateGoal(goal: Goal){
+    func updateGoal(goal: Goal) {
         try! realm.write {
             let realmGoal = realm.object(ofType: RealmGoal.self, forPrimaryKey: goal.uuidString)
             realmGoal?.goalText = goal.goalText
@@ -156,7 +137,7 @@ struct RealmRepository {
             realm.delete(goal)
         }
     }
-    // MARK: -　ToDoList共通型に関するRepository
+    // MARK: - ToDoList共通型に関するRepository
 //    func loadToDoList(sortedAscending: Bool) -> [ToDoList] {
 //        let realmToDoList = realm.objects(RealmToDoList.self).sorted(byKeyPath: "", ascending: <#T##Bool#>)
 //        let realmToDoListArray = Array(realmToDoList)
@@ -171,7 +152,6 @@ struct RealmRepository {
         let toDoItems = toDoList.toDoItems
         return toDoItems
     }
-    
     func loadToDoItems(date: Date, sortedAscending: Bool) -> [ToDoList.ToDoItem] {
         let realmToDoLists = realm.objects(RealmToDoList.self)
         let realmToDoList = realmToDoLists.filter("toDoDate == '\(date)'").first
@@ -184,14 +164,13 @@ struct RealmRepository {
         let toDoItemArray = realmToDoItemArray.map { ToDoList.ToDoItem(managedObject: $0) }
         return toDoItemArray
     }
-    
-    func appendToDoList(toDoList: ToDoList){
-        try! realm.write{
+    func appendToDoList(toDoList: ToDoList) {
+        try! realm.write {
             let realmToDoList = toDoList.managedObject()
             realm.add(realmToDoList)
         }
     }
-    func updateToDoList(toDoList: ToDoList){
+    func updateToDoList(toDoList: ToDoList) {
         try! realm.write {
             let realmToDoList = realm.object(ofType: RealmToDoList.self, forPrimaryKey: toDoList.uuidString)
             realmToDoList?.toDoItems = toDoList.managedObject().toDoItems
