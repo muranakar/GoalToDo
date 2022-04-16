@@ -44,4 +44,6 @@ class EditingDiaryViewController: UIViewController, UITextViewDelegate {
     @IBAction func saveButtonAction(_ sender: Any) {
         performSegue(withIdentifier: "exitFromEditBySaveSegue", sender: nil)
     }
+
+    // TODO:編集データ保存　Repository
 }
