@@ -131,30 +131,42 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sk3-0p-X3D">
+                                <rect key="frame" x="107" y="431" width="200" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="VeT-T5-GU8"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Lia-gm-0bZ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="iqV-Qs-Gdn" firstAttribute="top" secondItem="Lia-gm-0bZ" secondAttribute="top" constant="10" id="JHa-wl-VGc"/>
                             <constraint firstItem="iqV-Qs-Gdn" firstAttribute="centerX" secondItem="ilB-FI-B8K" secondAttribute="centerX" id="Tv9-7K-JN7"/>
+                            <constraint firstItem="Sk3-0p-X3D" firstAttribute="centerX" secondItem="ilB-FI-B8K" secondAttribute="centerX" id="Uwx-mL-P69"/>
+                            <constraint firstItem="Sk3-0p-X3D" firstAttribute="centerY" secondItem="ilB-FI-B8K" secondAttribute="centerY" id="aSa-uR-NgM"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="QJX-A1-O5v">
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="uZZ-QU-Bk6">
                             <connections>
-                                <segue destination="TXS-i8-FHw" kind="unwind" unwindAction="backToToDoCalendarViewControllerWithSegue:" id="J3g-xp-94m"/>
+                                <action selector="editToDoItems:" destination="DGI-wd-koZ" id="CUy-pv-pp1"/>
+                                <segue destination="TXS-i8-FHw" kind="unwind" identifier="backToToDoCalendarViewControllerWithSegue" unwindAction="backToToDoCalendarViewControllerWithSegue:" id="J3g-xp-94m"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="selectDateLabel" destination="iqV-Qs-Gdn" id="nJ1-3Y-G6j"/>
+                        <outlet property="toDoItemTextField" destination="Sk3-0p-X3D" id="Lte-V5-sAt"/>
                         <segue destination="TXS-i8-FHw" kind="unwind" identifier="exitFromEditBySaveSegue" unwindAction="diaryExitFromEditBySaveSegueWithSegue:" id="cnY-vX-IuP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZRi-w5-La9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="TXS-i8-FHw" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1858" y="88"/>
+            <point key="canvasLocation" x="1857.9710144927537" y="87.723214285714278"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7Uu-lG-3SB">

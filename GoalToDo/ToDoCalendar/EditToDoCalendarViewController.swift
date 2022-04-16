@@ -12,10 +12,11 @@ class EditToDoCalendarViewController: UIViewController, UITextViewDelegate {
     var pushDateString: String?
     private var pushedDate: Date
     private let repository = RealmRepository()
-    private var toDoList: [ToDoList.ToDoItem] {
+    private var toDoItems: [ToDoList.ToDoItem] {
         repository.loadToDoItems(date: pushedDate)
     }
     @IBOutlet weak private var selectDateLabel: UILabel!
+    @IBOutlet weak private var toDoItemTextField: UITextField!
     // TODO: TODOリストに変更
     // TODO: 編集データ保存　Repository
     required init?(coder: NSCoder, pushDate: Date) {
@@ -45,4 +46,14 @@ class EditToDoCalendarViewController: UIViewController, UITextViewDelegate {
             }
         }
     }
+
+    @IBAction func editToDoItems(_ sender: Any) {
+        toDoItems.append(contentsOf: )
+        let toDoItem = ToDoList.ToDoItem(toDoText: toDoItemTextField.text!, isCheck: false, createdAt: Date())
+        repository.appendToDoList(toDoList: <#T##ToDoList#>)
+        toDoItemTextField.text!
+        performSegue(withIdentifier: "backToToDoCalendarViewControllerWithSegue", sender: nil)
+    }
+
+
 }
