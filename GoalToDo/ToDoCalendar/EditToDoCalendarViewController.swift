@@ -8,7 +8,7 @@
 import UIKit
 import RealmSwift
 
-class EditingDiaryViewController: UIViewController, UITextViewDelegate {
+class EditToDoCalendarViewController: UIViewController, UITextViewDelegate {
     var pushDate: String?
     @IBOutlet weak private var selectDateLabel: UILabel!
     @IBOutlet weak private var diaryDescriptionTextView: UITextView!

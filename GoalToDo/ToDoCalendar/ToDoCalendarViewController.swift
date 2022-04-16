@@ -9,7 +9,7 @@ import UIKit
 import FSCalendar
 import CalculateCalendarLogic
 
-final class WillDiaryViewController: UIViewController {
+final class ToDoCalendarViewController: UIViewController {
     private let repository = RealmRepository()
     private var pushDateToDoItem: [ToDoList.ToDoItem] {
         repository.loadToDoItems(date: pushDate)
@@ -54,7 +54,7 @@ extension WillDiaryViewController: FSCalendarDelegate,
     }
 }
 
-extension WillDiaryViewController: FSCalendarDelegateAppearance{
+extension WillDiaryViewController: FSCalendarDelegateAppearance {
     // https://qiita.com/Koutya/items/f5c7c12ab1458b6addcd の記事を参考
     func calendar(
         _ calendar: FSCalendar,
