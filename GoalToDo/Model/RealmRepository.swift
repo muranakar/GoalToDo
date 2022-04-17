@@ -144,7 +144,7 @@ struct RealmRepository {
 //        let toDoList = realmToDoListArray.map { ToDoList(managedObject: $0) }
 //        return toDoList
 //    }
-    func loadToDoItems(date: Date) -> [ToDoList.ToDoItem] {
+    func loadToDoItems(date: String) -> [ToDoList.ToDoItem] {
         let realmToDoLists = realm.objects(RealmToDoList.self)
         let realmToDoList = realmToDoLists.filter("toDoDate == '\(date)'").first
         guard let realmToDoList = realmToDoList else { return [] }

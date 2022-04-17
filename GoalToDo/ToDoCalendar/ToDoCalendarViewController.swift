@@ -12,7 +12,7 @@ import CalculateCalendarLogic
 final class ToDoCalendarViewController: UIViewController {
     private let repository = RealmRepository()
     private var pushDateToDoItem: [ToDoList.ToDoItem] {
-        repository.loadToDoItems(date: pushDate)
+        repository.loadToDoItems(date: pushDateString)
     }
 
     var pushDate = Date()
