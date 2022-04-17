@@ -10,7 +10,6 @@ import RealmSwift
 
 class ToDoListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     let results = try! Realm().objects(ToDoListModel.self).sorted(byKeyPath: "createdAt", ascending: true)
-
     var items: [ToDoListModel] = []
     var editIndexPath: IndexPath?
 

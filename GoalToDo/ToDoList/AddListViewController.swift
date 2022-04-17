@@ -13,24 +13,18 @@ class AddListViewController: UIViewController {
         case add
         case edit
     }
-    
     var mode = Mode.add
     var detailedItem = ""
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Do any additional setup after loading the view.
-        
         if mode == .edit {
             detailedItemTextField.text = detailedItem
         }
     }
-    
     @IBOutlet weak var detailedItemTextField: UITextField!
     
-    @IBAction func saveButtonAction(_ sender: Any) {
-        
+    @IBAction private func saveButtonAction(_ sender: Any) {
         if mode == .add {
             let identifier = "exitFromAddBySaveSegue"
             performSegue(withIdentifier: identifier, sender: sender)
@@ -39,9 +33,8 @@ class AddListViewController: UIViewController {
             performSegue(withIdentifier: identifier, sender: sender)
         }
     }
-    
-    @IBAction func cancelButtonAction(_ sender: Any) {
-        
+
+    @IBAction private func cancelButtonAction(_ sender: Any) {
         if mode == .add {
             let identifier = "exitFromAddByCancelSegue"
             performSegue(withIdentifier: identifier, sender: sender)
