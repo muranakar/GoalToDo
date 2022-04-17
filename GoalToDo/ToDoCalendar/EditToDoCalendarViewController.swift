@@ -19,8 +19,7 @@ class EditToDoCalendarViewController: UIViewController, UITextViewDelegate {
     // TODO: 編集データ保存　Repository
     required init?(coder: NSCoder, pushDate: Date) {
         self.pushedDate = pushDate
-        self.pushDateString = DateFormatter.calendrDateFormatter().string(from: pushDate)
-        self.toDoItems = repository.loadToDoItems(date: pushDateString!)
+        self.toDoItems = repository.loadToDoItems(date: pushedDate)
         super.init(coder: coder)
     }
 
@@ -41,17 +40,5 @@ class EditToDoCalendarViewController: UIViewController, UITextViewDelegate {
         let toDoList = ToDoList(toDoItems: toDoItems, toDoDate: Date())
         repository.appendToDoList(toDoList: toDoList)
         performSegue(withIdentifier: "backToToDoCalendarViewControllerWithSegue", sender: nil)
-    }
-}
-
-private extension DateFormatter {
-    static func calendrDateFormatter() -> Self {
-        let formatter = DateFormatter()
-        formatter.dateFormat = DateFormatter.dateFormat(
-            fromTemplate: "ydMMM",
-            options: 0,
-            locale: Locale(identifier: "ja_JP")
-        )
-        return formatter as! Self
     }
 }

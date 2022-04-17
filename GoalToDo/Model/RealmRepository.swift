@@ -138,16 +138,17 @@ struct RealmRepository {
         }
     }
     // MARK: - ToDoList共通型に関するRepository
-//    func loadToDoList(sortedAscending: Bool) -> [ToDoList] {
-//        let realmToDoList = realm.objects(RealmToDoList.self).sorted(byKeyPath: "", ascending: <#T##Bool#>)
-//        let realmToDoListArray = Array(realmToDoList)
-//        let toDoList = realmToDoListArray.map { ToDoList(managedObject: $0) }
-//        return toDoList
-//    }
-    func loadToDoItems(date: String) -> [ToDoList.ToDoItem] {
+    //    func loadToDoList(sortedAscending: Bool) -> [ToDoList] {
+    //        let realmToDoList = realm.objects(RealmToDoList.self).sorted(byKeyPath: "", ascending: <#T##Bool#>)
+    //        let realmToDoListArray = Array(realmToDoList)
+    //        let toDoList = realmToDoListArray.map { ToDoList(managedObject: $0) }
+    //        return toDoList
+    //    }
+    func loadToDoItems(date: Date) -> [ToDoList.ToDoItem] {
         let realmToDoLists = realm.objects(RealmToDoList.self)
-        let realmToDoList = realmToDoLists.filter("toDoDate == '\(date)'").first
-        guard let realmToDoList = realmToDoList else { return [] }
+        guard let realmToDoList = realmToDoLists
+            .filter("toDoDate == %@",date)
+            .first else { return [] }
         let toDoList = ToDoList(managedObject: realmToDoList)
         let toDoItems = toDoList.toDoItems
         return toDoItems
@@ -190,6 +191,18 @@ struct RealmRepository {
     }
 }
 
+private extension DateFormatter {
+    static func realmFilterDateFormatter() -> Self {
+        let formatter = DateFormatter()
+        formatter.dateFormat = DateFormatter.dateFormat(
+            fromTemplate: "ydMMM",
+            options: 0,
+            locale: Locale(identifier: "ja_JP")
+        )
+        formatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
+        return formatter as! Self
+    }
+}
 // MARK: - せなさんコード
 class ToDoListModel: Object {
     @objc dynamic var detailedItem = ""
