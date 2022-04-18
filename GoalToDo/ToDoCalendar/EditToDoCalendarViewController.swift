@@ -13,7 +13,7 @@ class EditToDoCalendarViewController: UIViewController, UITextViewDelegate {
     private var pushedDate: Date
     private let repository = RealmRepository()
     private var toDoList: ToDoList?
-    private var toDoItems: [ToDoList.ToDoItem]
+    private var toDoItems: [ToDoItem]
     @IBOutlet weak private var selectDateLabel: UILabel!
     @IBOutlet weak private var toDoItemTextField: UITextField!
     // TODO: TODOリストに変更
@@ -21,8 +21,11 @@ class EditToDoCalendarViewController: UIViewController, UITextViewDelegate {
     required init?(coder: NSCoder, pushDate: Date) {
         self.pushedDate = pushDate
         self.toDoList = repository.loadToDoList(date: pushDate)
-        self.toDoItems = repository.loadToDoItems(date: pushedDate)
-
+        if let toDoList = toDoList {
+            self.toDoItems = repository.loadToDoItem(toDoList: toDoList)
+        } else {
+            self.toDoItems = []
+        }
         super.init(coder: coder)
     }
 
@@ -38,17 +41,13 @@ class EditToDoCalendarViewController: UIViewController, UITextViewDelegate {
     }
 
     @IBAction private func editToDoItems(_ sender: Any) {
-        let toDoItem = ToDoList.ToDoItem(toDoText: toDoItemTextField.text!, isCheck: false, createdAt: Date())
-        if toDoItems.isEmpty {
-            toDoItems.append(toDoItem)
-            let toDoList = ToDoList(toDoItems: toDoItems, toDoDate: pushedDate)
-            repository.appendToDoList(toDoList: toDoList)
+        let toDoItem = ToDoItem(toDoText: toDoItemTextField.text!, isCheck: false, createdAt: Date())
+        if let toDoList = toDoList {
+            repository.appendToDoItem(toDoList: toDoList, toDoItem: toDoItem)
         } else {
-            toDoItems.append(toDoItem)
-            toDoList?.toDoItems = toDoItems
-            print(toDoItems)
-            repository.updateToDoList(toDoList: toDoList!)
-            print(repository.loadToDoList(date: pushedDate)?.toDoItems)
+            let newToDoList = ToDoList(toDoDate: pushedDate)
+            repository.appendToDoList(toDoList: newToDoList)
+            repository.appendToDoItem(toDoList: newToDoList, toDoItem: toDoItem)
         }
         performSegue(withIdentifier: "backToToDoCalendarViewControllerWithSegue", sender: nil)
     }

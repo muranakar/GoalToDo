@@ -11,8 +11,14 @@ import CalculateCalendarLogic
 
 final class ToDoCalendarViewController: UIViewController {
     private let repository = RealmRepository()
-    private var pushDateToDoItem: [ToDoList.ToDoItem] {
-        repository.loadToDoItems(date: pushDate)
+    private var pushDateToDoList: ToDoList? {
+        repository.loadToDoList(date: pushDate)
+    }
+    private var pushDateToDoItems: [ToDoItem] {
+        guard let pushDateToDoList = pushDateToDoList else {
+            return []
+        }
+        return repository.loadToDoItem(toDoList: pushDateToDoList)
     }
 
     var pushDate = Date()
@@ -24,6 +30,7 @@ final class ToDoCalendarViewController: UIViewController {
         self.performSegue(withIdentifier: "ToDiary", sender: nil)
     }
     @IBOutlet private weak var toDoItemsTableView: UITableView!
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.toDoItemsTableView.reloadData()
@@ -47,7 +54,7 @@ final class ToDoCalendarViewController: UIViewController {
 
 extension ToDoCalendarViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        pushDateToDoItem.count + 1
+        pushDateToDoItems.count + 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -65,7 +72,7 @@ extension ToDoCalendarViewController: UITableViewDataSource {
                 for: indexPath
             ) as! ToDoItemTableViewCell
             // TODO: ToDoItemのisCheckがfalseのときに、Labelを非表示にする設定をする必要がある。
-            toDOItemCell.configure(labelText: pushDateToDoItem[indexPath.row - 1].toDoText)
+            toDOItemCell.configure(labelText: pushDateToDoItems[indexPath.row - 1].toDoText)
             return toDOItemCell
         }
     }
