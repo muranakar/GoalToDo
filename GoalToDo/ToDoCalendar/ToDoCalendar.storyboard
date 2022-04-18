@@ -153,7 +153,6 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="uZZ-QU-Bk6">
                             <connections>
                                 <action selector="editToDoItems:" destination="DGI-wd-koZ" id="CUy-pv-pp1"/>
-                                <segue destination="TXS-i8-FHw" kind="unwind" identifier="backToToDoCalendarViewControllerWithSegue" unwindAction="backToToDoCalendarViewControllerWithSegue:" id="J3g-xp-94m"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -161,6 +160,7 @@
                         <outlet property="selectDateLabel" destination="iqV-Qs-Gdn" id="nJ1-3Y-G6j"/>
                         <outlet property="toDoItemTextField" destination="Sk3-0p-X3D" id="Lte-V5-sAt"/>
                         <segue destination="TXS-i8-FHw" kind="unwind" identifier="exitFromEditBySaveSegue" unwindAction="diaryExitFromEditBySaveSegueWithSegue:" id="cnY-vX-IuP"/>
+                        <segue destination="TXS-i8-FHw" kind="unwind" identifier="backToToDoCalendarViewControllerWithSegue" unwindAction="backToToDoCalendarViewControllerWithSegue:" id="HrC-RH-rAC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZRi-w5-La9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

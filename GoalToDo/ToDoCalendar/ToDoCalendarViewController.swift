@@ -12,8 +12,7 @@ import CalculateCalendarLogic
 final class ToDoCalendarViewController: UIViewController {
     private let repository = RealmRepository()
     private var pushDateToDoItem: [ToDoList.ToDoItem] {
-        [ToDoList.ToDoItem(toDoText: "ddd", isCheck: false, createdAt: Date()),
-         ToDoList.ToDoItem(toDoText: "ddd", isCheck: false, createdAt: Date())]
+        repository.loadToDoItems(date: pushDate)
     }
 
     var pushDate = Date()
@@ -32,10 +31,8 @@ final class ToDoCalendarViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    // 以降 https://qiita.com/shxun6934/items/e4e6e81cecf68b22bdc3 の記事を参考
 
     // MARK: - 画面遷移
-    // TODO: セグエを変更
     @IBSegueAction
     func makeEditToDoCalender(
         coder: NSCoder,
@@ -48,6 +45,36 @@ final class ToDoCalendarViewController: UIViewController {
     }
 }
 
+extension ToDoCalendarViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        pushDateToDoItem.count + 1
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch indexPath.row {
+        case 0:
+            let pushDateCell = tableView.dequeueReusableCell(
+                withIdentifier: "pushDateCell",
+                for: indexPath
+            ) as! PushDateTableViewCell
+            pushDateCell.configure(labelText: pushDateString)
+            return pushDateCell
+        default:
+            let toDOItemCell = tableView.dequeueReusableCell(
+                withIdentifier: "toDoItemCell",
+                for: indexPath
+            ) as! ToDoItemTableViewCell
+            // TODO: ToDoItemのisCheckがfalseのときに、Labelを非表示にする設定をする必要がある。
+            toDOItemCell.configure(labelText: pushDateToDoItem[indexPath.row - 1].toDoText)
+            return toDOItemCell
+        }
+    }
+}
+
+extension ToDoCalendarViewController: UITableViewDelegate {
+}
+
+// 以降 https://qiita.com/shxun6934/items/e4e6e81cecf68b22bdc3 の記事を参考
 extension ToDoCalendarViewController: FSCalendarDelegate,
                                    FSCalendarDataSource {
     func calendar(
@@ -56,8 +83,6 @@ extension ToDoCalendarViewController: FSCalendarDelegate,
         at monthPosition: FSCalendarMonthPosition
     ) {
         pushDate = date
-        print(pushDate)
-        print(pushDateString)
         toDoItemsTableView.reloadData()
     }
 }
@@ -85,36 +110,6 @@ extension ToDoCalendarViewController: FSCalendarDelegateAppearance {
         }
         return nil
     }
-}
-
-extension ToDoCalendarViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.row {
-        case 0:
-            let pushDateCell = tableView.dequeueReusableCell(
-                withIdentifier: "pushDateCell",
-                for: indexPath
-            ) as! PushDateTableViewCell
-            pushDateCell.configure(labelText: pushDateString)
-            return pushDateCell
-        default:
-            let toDOItemCell = tableView.dequeueReusableCell(
-                withIdentifier: "toDoItemCell",
-                for: indexPath
-            ) as! ToDoItemTableViewCell
-            // TODO: ToDoItemのisCheckがfalseのときに、Labelを非表示にする設定をする必要がある。
-            print(pushDateToDoItem)
-            toDOItemCell.configure(labelText: pushDateToDoItem[indexPath.row - 1].toDoText)
-            return toDOItemCell
-        }
-    }
-}
-
-extension ToDoCalendarViewController: UITableViewDelegate {
 }
 
 // https://qiita.com/Koutya/items/f5c7c12ab1458b6addcd の記事を参考

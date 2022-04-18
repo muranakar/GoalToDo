@@ -39,13 +39,15 @@ class RealmToDoList: Object {
 }
 
 class RealmToDoItem: Object {
+    @objc dynamic var uuidString: String = ""
     @objc dynamic var toDoText: String = ""
     @objc dynamic var isCheck: Bool = false
     @objc dynamic var createdAt: Date = Date()
     let toDoItems = LinkingObjects(fromType: RealmToDoList.self, property: "toDoItems")
 
-    convenience init(toDoText: String, isCheck: Bool) {
+    convenience init(uuid: UUID, toDoText: String, isCheck: Bool) {
         self.init()
+        self.uuidString = uuid.uuidString
         self.toDoText = toDoText
         self.isCheck = isCheck
     }
@@ -71,24 +73,18 @@ private extension ToDoList {
     init(managedObject: RealmToDoList) {
         self.uuidString = managedObject.uuidString
         self.toDoDate = managedObject.toDoDate
-        let realmToDoItemsArray = Array(managedObject.toDoItems)
-        let toDoItemsArray = realmToDoItemsArray.map {
-            ToDoItem(managedObject: $0)
-        }
-        self.toDoItems = toDoItemsArray
     }
 
     func managedObject() -> RealmToDoList {
         let realmToDoList = RealmToDoList()
         realmToDoList.uuidString = self.uuidString
         realmToDoList.toDoDate = self.toDoDate
-        let realmToDoItemsArray = self.toDoItems.map { $0.managedObject() }
-        realmToDoList.toDoItems.append(objectsIn: realmToDoItemsArray)
         return realmToDoList
     }
 }
-private extension ToDoList.ToDoItem {
+private extension ToDoItem {
     init(managedObject: RealmToDoItem) {
+        self.uuidString = managedObject.uuidString
         self.isCheck = managedObject.isCheck
         self.toDoText = managedObject.toDoText
         self.createdAt = managedObject.createdAt
@@ -96,6 +92,7 @@ private extension ToDoList.ToDoItem {
 
     func managedObject() -> RealmToDoItem {
         let realmToDoItem = RealmToDoItem()
+        realmToDoItem.uuidString = self.uuidString
         realmToDoItem.isCheck = self.isCheck
         realmToDoItem.toDoText = self.toDoText
         realmToDoItem.createdAt = self.createdAt
@@ -138,33 +135,15 @@ struct RealmRepository {
         }
     }
     // MARK: - ToDoList共通型に関するRepository
-    //    func loadToDoList(sortedAscending: Bool) -> [ToDoList] {
-    //        let realmToDoList = realm.objects(RealmToDoList.self).sorted(byKeyPath: "", ascending: <#T##Bool#>)
-    //        let realmToDoListArray = Array(realmToDoList)
-    //        let toDoList = realmToDoListArray.map { ToDoList(managedObject: $0) }
-    //        return toDoList
-    //    }
-    func loadToDoItems(date: Date) -> [ToDoList.ToDoItem] {
+    func loadToDoList(date: Date) -> ToDoList? {
         let realmToDoLists = realm.objects(RealmToDoList.self)
         guard let realmToDoList = realmToDoLists
-            .filter("toDoDate == %@",date)
-            .first else { return [] }
+            .filter("toDoDate == %@", date)
+            .first else { return nil }
         let toDoList = ToDoList(managedObject: realmToDoList)
-        let toDoItems = toDoList.toDoItems
-        return toDoItems
+        return toDoList
     }
-    func loadToDoItems(date: Date, sortedAscending: Bool) -> [ToDoList.ToDoItem] {
-        let realmToDoLists = realm.objects(RealmToDoList.self)
-        let realmToDoList = realmToDoLists.filter("toDoDate == '\(date)'").first
-        guard let realmToDoList = realmToDoList else { return [] }
-        let realmToDoItems = realmToDoList.toDoItems
-            .sorted(
-                byKeyPath: "toDoDate",
-                ascending: sortedAscending)
-        let realmToDoItemArray = Array(realmToDoItems)
-        let toDoItemArray = realmToDoItemArray.map { ToDoList.ToDoItem(managedObject: $0) }
-        return toDoItemArray
-    }
+
     func appendToDoList(toDoList: ToDoList) {
         try! realm.write {
             let realmToDoList = toDoList.managedObject()
@@ -174,7 +153,6 @@ struct RealmRepository {
     func updateToDoList(toDoList: ToDoList) {
         try! realm.write {
             let realmToDoList = realm.object(ofType: RealmToDoList.self, forPrimaryKey: toDoList.uuidString)
-            realmToDoList?.toDoItems = toDoList.managedObject().toDoItems
             realmToDoList?.toDoDate = toDoList.toDoDate
         }
     }
@@ -184,23 +162,59 @@ struct RealmRepository {
             ofType: RealmToDoList.self,
             forPrimaryKey: toDoList.uuidString
         ) else { return }
-        // swiftlint:disable:next force_cast
         try! realm.write {
             realm.delete(toDoList)
         }
     }
-}
 
-private extension DateFormatter {
-    static func realmFilterDateFormatter() -> Self {
-        let formatter = DateFormatter()
-        formatter.dateFormat = DateFormatter.dateFormat(
-            fromTemplate: "ydMMM",
-            options: 0,
-            locale: Locale(identifier: "ja_JP")
-        )
-        formatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
-        return formatter as! Self
+    func loadToDoItem(toDoList: ToDoList) -> [ToDoItem] {
+        let realmAssessor = realm.object(ofType: RealmToDoList.self, forPrimaryKey: toDoList.uuidString)
+        guard let realmToDoItems = realmAssessor?.toDoItems else { return [] }
+        let toDoItemsArray = Array(realmToDoItems)
+        let toDoItems = toDoItemsArray.map {ToDoItem(managedObject: $0)}
+        return toDoItems
+    }
+
+    func loadToDoItem(toDoItem: ToDoItem) -> ToDoItem? {
+        guard let realmToDoItem = realm.object(
+            ofType: RealmToDoItem.self,
+            forPrimaryKey: toDoItem.uuidString
+        ) else {
+            return nil
+        }
+        let toDoItem = ToDoItem(managedObject: realmToDoItem)
+        return toDoItem
+    }
+
+    func appendToDoItem(toDoList: ToDoList, toDoItem: ToDoItem) {
+        guard let list = realm.object(
+            ofType: RealmToDoList.self,
+            forPrimaryKey: toDoList.uuidString
+        )?.toDoItems else { return }
+        // swiftlint:disable:next force_cast
+        try! realm.write {
+            list.append(toDoItem.managedObject())
+        }
+    }
+
+    func updateToDoItem(toDoItem: ToDoItem) {
+        try! realm.write {
+            let realmToDoItem = realm.object(ofType: RealmToDoItem.self, forPrimaryKey: toDoItem.uuidString)
+            realmToDoItem?.toDoText = toDoItem.toDoText
+            realmToDoItem?.isCheck = toDoItem.isCheck
+            realmToDoItem?.createdAt = toDoItem.createdAt
+        }
+    }
+
+    func removeToDoItem(toDoItem: ToDoItem) {
+        guard let fetchedRealmtoDoItem = realm.object(
+            ofType: RealmToDoItem.self,
+            forPrimaryKey: toDoItem.uuidString
+        ) else { return }
+        // swiftlint:disable:next force_cast
+        try! realm.write {
+            realm.delete(fetchedRealmtoDoItem)
+        }
     }
 }
 // MARK: - せなさんコード
