@@ -143,6 +143,12 @@ struct RealmRepository {
         let toDoList = ToDoList(managedObject: realmToDoList)
         return toDoList
     }
+    func loadToDoList() -> [ToDoList] {
+        let realmToDoLists = realm.objects(RealmToDoList.self)
+        let realmtoDoListsArray = Array(realmToDoLists)
+        let toDoLists = realmtoDoListsArray.map { ToDoList(managedObject: $0)}
+        return toDoLists
+    }
 
     func appendToDoList(toDoList: ToDoList) {
         try! realm.write {
