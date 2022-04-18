@@ -6,11 +6,21 @@
 //
 
 import UIKit
-import RealmSwift
+// import RealmSwift
 
 class ToDoListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    let results = try! Realm().objects(ToDoListModel.self).sorted(byKeyPath: "createdAt", ascending: true)
-    var items: [ToDoListModel] = []
+// TODO: toDoDateを入力させる処理
+//    let results = try! Realm().objects(ToDoListModel.self)
+//    .sorted(byKeyPath: "createdAt", ascending: true)　→ loadToDoItemsのsortedAssendigを使う？
+//    var items: [ToDoListModel] = []
+    let realmRepository = RealmRepository()
+    var toDoDate: Date = Date()
+    var isSortedeAscending = true
+    var toDoItem: ToDoList.ToDoItem?
+//    lazy var toDoItems = realmRepository.loadToDoItems(date: toDoDate!, sortedAscending: isSortedeAscending)
+    var toDoList: ToDoList?
+//    lazy var toDoList = ToDoList(toDoItems: toDoItems, toDoDate: toDoDate!)
+
     var editIndexPath: IndexPath?
 
     override func viewDidLoad() {
@@ -28,24 +38,40 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
      }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.results.count
+//        return self.results.count
+        guard let toDoItems = toDoItems else { return 0 }
+        return toDoItems.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell1", for: indexPath) as! ToDoListXibTableViewCell
-        let item = self.results[indexPath.row]
-        cell.checkImageView.image = item.check ? UIImage(named: "check") : UIImage(named: "uncheck")
-        cell.detailedItemLabel.text = item.detailedItem
+//        let item = self.results[indexPath.row]
+        guard let toDoItems = toDoItems else { return cell }
+
+        let item = toDoItems[indexPath.row]
+//        cell.checkImageView.image = item.check ? UIImage(named: "check") : UIImage(named: "uncheck")
+//        cell.detailedItemLabel.text = item.detailedItem
+        // itemを書き込んだ日付を現在時刻(Date())から日本時間の現在時刻に変換しなければならない
+        cell.checkImageView.image = item.isCheck ? UIImage(named: "check") : UIImage(named: "uncheck")
+        cell.detailedItemLabel.text = item.toDoText
 
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         editIndexPath = indexPath
-        let item = self.results[indexPath.row]
-        try! Realm().write {
-            item.check = !item.check
-        }
+//        let item = self.results[indexPath.row]
+//        try! Realm().write {
+//            item.check = !item.check
+//        }
+        guard let toDoItems = toDoItems else { return }
+        var item = toDoItems[indexPath.row]
+        item.isCheck = !item.isCheck
+
+        toDoList = ToDoList(toDoItems: [item], toDoDate: toDoDate)
+        guard let toDoList = toDoList else { return }
+        realmRepository.updateToDoList(toDoList: toDoList)
+
         self.tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 
@@ -56,12 +82,20 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView,
                    commit editingStyle: UITableViewCell.EditingStyle,
                    forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//            try! Realm().write {
+//                try! Realm().delete(self.results[indexPath.row])
+//            }
+//            tableView.deleteRows(at: [indexPath], with: .automatic)
+//        }
         if editingStyle == .delete {
-            try! Realm().write {
-                try! Realm().delete(self.results[indexPath.row])
-            }
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            guard let toDoItems = toDoItems else { return }
+            let item = toDoItems[indexPath.row]
+            toDoList = ToDoList(toDoItems: [item], toDoDate: toDoDate)
+            guard let toDoList = toDoList else { return }
+            realmRepository.removeToDoList(toDoList: toDoList)
         }
+        tableView.deleteRows(at: [indexPath], with: .automatic)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -72,8 +106,9 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
             case "editSegue":
             add.mode = AddListViewController.Mode.edit
                 if let indexPath = sender {
-                    let item = self.results[(indexPath as AnyObject).row]
-                    add.detailedItem = item.detailedItem
+                    guard let toDoItems = toDoItems else { return }
+                    let item = toDoItems[(indexPath as AnyObject).row]
+                    add.toDoText = item.toDoText
                 }
             default:
                 break
@@ -86,13 +121,20 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
 
     @IBAction private func exitFromAddBySaveSegue(segue: UIStoryboardSegue) {
         if let add = segue.source as? AddListViewController {
-            let newItem = ToDoListModel()
-            newItem.detailedItem = add.detailedItemTextField.text ?? ""
-            newItem.check = false
-
-            try! Realm().write {
-                try! Realm().add(newItem)
-            }
+//            let newItem = ToDoListModel()
+//            newItem.detailedItem = add.detailedItemTextField.text ?? ""
+//            newItem.check = false
+//
+//            try! Realm().write {
+//                try! Realm().add(newItem)
+//            }
+            toDoItems = [ToDoList.ToDoItem(
+                toDoText: add.detailedItemTextField.text ?? "",
+                isCheck: false, createdAt: Date())]
+            guard let toDoItems = toDoItems else { return }
+            toDoList = ToDoList(toDoItems: toDoItems, toDoDate: toDoDate)
+            guard let toDoList = toDoList else { return }
+            realmRepository.appendToDoList(toDoList: toDoList)
             self.tableView.reloadData()
         }
     }
@@ -103,9 +145,16 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
     @IBAction private func exitFromEditBySaveSegue(segue: UIStoryboardSegue) {
         if let add = segue.source as? AddListViewController {
             if let indexPath = editIndexPath {
-                try! Realm().write {
-                    self.results[indexPath.row].detailedItem = add.detailedItemTextField.text ?? ""
-                }
+//                try! Realm().write {
+//                    self.results[indexPath.row].detailedItem = add.detailedItemTextField.text ?? ""
+//                }
+                guard let toDoItems = toDoItems else { return }
+                var item = toDoItems[indexPath.row]
+                item.toDoText = add.detailedItemTextField.text ?? ""
+                toDoList = ToDoList(toDoItems: [item], toDoDate: toDoDate)
+                guard let toDoList = toDoList else { return }
+                realmRepository.updateToDoList(toDoList: toDoList)
+
                 self.tableView.reloadRows(at: [indexPath], with: .automatic)
             }
         }

@@ -14,12 +14,12 @@ class AddListViewController: UIViewController {
         case edit
     }
     var mode = Mode.add
-    var detailedItem = ""
+    var toDoText = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         if mode == .edit {
-            detailedItemTextField.text = detailedItem
+            detailedItemTextField.text = toDoText
         }
     }
     @IBOutlet weak var detailedItemTextField: UITextField!
