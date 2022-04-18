@@ -9,12 +9,12 @@ import Foundation
 
 struct ToDoList {
     var uuidString = UUID().uuidString
-    var toDoItems: [ToDoItem]
     var toDoDate: Date
+}
 
-    struct ToDoItem {
-        var toDoText: String
-        var isCheck: Bool
-        var createdAt: Date
-    }
+struct ToDoItem {
+    var uuidString = UUID().uuidString
+    var toDoText: String
+    var isCheck: Bool
+    var createdAt: Date
 }

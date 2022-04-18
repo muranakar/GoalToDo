@@ -8,49 +8,47 @@
 import UIKit
 import RealmSwift
 
-class EditingDiaryViewController: UIViewController, UITextViewDelegate {
+class EditToDoCalendarViewController: UIViewController, UITextViewDelegate {
+    var pushDateString: String?
+    private var pushedDate: Date
+    private let repository = RealmRepository()
+    private var toDoList: ToDoList?
+    private var toDoItems: [ToDoItem]
+    @IBOutlet weak private var selectDateLabel: UILabel!
+    @IBOutlet weak private var toDoItemTextField: UITextField!
+    // TODO: TODOリストに変更
+    // TODO: 編集データ保存　Repository
+    required init?(coder: NSCoder, pushDate: Date) {
+        self.pushedDate = pushDate
+        self.toDoList = repository.loadToDoList(date: pushDate)
+        if let toDoList = toDoList {
+            self.toDoItems = repository.loadToDoItem(toDoList: toDoList)
+        } else {
+            self.toDoItems = []
+        }
+        super.init(coder: coder)
+    }
 
-    
-    var pushDate: String?
-    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        diaryDescriptionTextView.delegate = self
-        diaryDescriptionTextView.layer.borderColor = UIColor.black.cgColor
-        diaryDescriptionTextView.layer.borderWidth = 1.0
-        diaryDescriptionTextView.layer.cornerRadius = 10.0
-        diaryDescriptionTextView.layer.masksToBounds = true
-        
-        if let pushDate = pushDate {
-            selectDateLabel.text = pushDate
-        }
     }
-
-    override func viewWillAppear(_ animated: Bool) { // TODO: 解読
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        if let pushDate = pushDate {
-            selectDateLabel.text = pushDate
-        }
-        
-        DispatchQueue(label: "background").async { // TODO: 解読
-            let realm = try! Realm()
-
-            if let savedDiary = realm.objects(DiaryModel.self).filter("calendarDate == '\(self.pushDate!)'").last {
-                    let context = savedDiary.diaryText
-                    DispatchQueue.main.async {
-                        self.diaryDescriptionTextView.text = context
-                    }
-            }
-        }
     }
-    
-    @IBOutlet weak var selectDateLabel: UILabel!
-    @IBOutlet weak var diaryDescriptionTextView: UITextView!
-    
-    @IBAction func saveButtonAction(_ sender: Any) {
-        performSegue(withIdentifier: "exitFromEditBySaveSegue", sender: nil)
+
+    @IBAction private func editToDoItems(_ sender: Any) {
+        let toDoItem = ToDoItem(toDoText: toDoItemTextField.text!, isCheck: false, createdAt: Date())
+        if let toDoList = toDoList {
+            repository.appendToDoItem(toDoList: toDoList, toDoItem: toDoItem)
+        } else {
+            let newToDoList = ToDoList(toDoDate: pushedDate)
+            repository.appendToDoList(toDoList: newToDoList)
+            repository.appendToDoItem(toDoList: newToDoList, toDoItem: toDoItem)
+        }
+        performSegue(withIdentifier: "backToToDoCalendarViewControllerWithSegue", sender: nil)
     }
 }
