@@ -79,7 +79,9 @@ extension ToDoCalendarViewController: UITableViewDataSource {
 }
 
 extension ToDoCalendarViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
         let newToDoItem = pushDateToDoItems[indexPath.row - 1]
         repository.removeToDoItem(toDoItem: newToDoItem)
