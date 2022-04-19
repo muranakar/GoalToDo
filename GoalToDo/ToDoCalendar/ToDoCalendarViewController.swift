@@ -79,11 +79,17 @@ extension ToDoCalendarViewController: UITableViewDataSource {
 }
 
 extension ToDoCalendarViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard editingStyle == .delete else { return }
+        let newToDoItem = pushDateToDoItems[indexPath.row - 1]
+        repository.removeToDoItem(toDoItem: newToDoItem)
+        tableView.reloadData()
+    }
 }
 
 // 以降 https://qiita.com/shxun6934/items/e4e6e81cecf68b22bdc3 の記事を参考
 extension ToDoCalendarViewController: FSCalendarDelegate,
-                                   FSCalendarDataSource {
+                                      FSCalendarDataSource {
     func calendar(
         _ calendar: FSCalendar,
         didSelect date: Date,

@@ -51,6 +51,9 @@ class RealmToDoItem: Object {
         self.toDoText = toDoText
         self.isCheck = isCheck
     }
+    override class func primaryKey() -> String? {
+        "uuidString"
+    }
 }
 
 private extension Goal {
