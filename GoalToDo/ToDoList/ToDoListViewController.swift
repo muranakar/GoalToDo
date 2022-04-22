@@ -13,14 +13,25 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
 //    let results = try! Realm().objects(ToDoListModel.self)
 //    .sorted(byKeyPath: "createdAt", ascending: true)　→ loadToDoItemsのsortedAssendigを使う？
 //    var items: [ToDoListModel] = []
-    let realmRepository = RealmRepository()
-    var toDoDate: Date = Date()
-    var isSortedeAscending = true
-    var toDoItem: ToDoItem?
 //    lazy var toDoItems = realmRepository.loadToDoItems(date: toDoDate!, sortedAscending: isSortedeAscending)
-    var toDoList: ToDoList?
 //    lazy var toDoList = ToDoList(toDoItems: toDoItems, toDoDate: toDoDate!)
-
+    private let repository = RealmRepository()
+    private var toDoList: ToDoList? {
+        repository.loadToDoList(date: toDoDate)
+    }
+    private lazy var toDoLists = [self.toDoList]
+    private var toDoItems: [ToDoItem] {
+        guard let toDoList = toDoList else {
+            return []
+        }
+        return repository.loadToDoItem(toDoList: toDoList)
+    }
+    var toDoDate: Date = Date()
+    var toDoDateString: String {
+        DateFormatter.calendrDateFormatter().string(from: toDoList?.toDoDate ?? Date())
+    }
+    private var sectionTittle: [String]?  // TODO: toDoListsの要素であるtoDoListのtoDoDateを取り出して、それをStringに変換したものを配列にする。
+    var isSortedeAscending = true
     var editIndexPath: IndexPath?
 
     override func viewDidLoad() {
@@ -31,17 +42,34 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.register(UINib(nibName: "ToDoListXibTableViewCell", bundle: nil), forCellReuseIdentifier: "Cell1")
         tableView.backgroundColor = UIColor.clear
     }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+
     @IBOutlet private weak var tableView: UITableView!
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension // 自動設定
      }
 
+    // https://i-app-tec.com/ios/tableview-section.html を参考
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if let sectionTittle = sectionTittle {
+            return sectionTittle.count
+        }
+        return 1
+    }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        sectionTittle?[section] // // TODO: toDoListの各日付の表示
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        return self.results.count
 //        guard let toDoItems = toDoItems else { return 0 }
 //        return toDoItems.count
-        return 1
+        toDoItems.count // TODO: それぞれのtoDoListによって異なってくる
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -55,6 +83,7 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
 //        // itemを書き込んだ日付を現在時刻(Date())から日本時間の現在時刻に変換しなければならない
 //        cell.checkImageView.image = item.isCheck ? UIImage(named: "check") : UIImage(named: "uncheck")
 //        cell.detailedItemLabel.text = item.toDoText
+        
 
         return cell
     }
@@ -160,5 +189,17 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
 //            }
 //        }
 //    }
+    }
+}
+
+private extension DateFormatter {
+    static func calendrDateFormatter() -> Self {
+        let formatter = DateFormatter()
+        formatter.dateFormat = DateFormatter.dateFormat(
+            fromTemplate: "ydMMM",
+            options: 0,
+            locale: Locale(identifier: "ja_JP")
+        )
+        return formatter as! Self
     }
 }
