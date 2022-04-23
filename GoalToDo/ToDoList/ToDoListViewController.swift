@@ -9,22 +9,26 @@ import UIKit
 // import RealmSwift
 
 class ToDoListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-// TODO: toDoDateを入力させる処理
-//    let results = try! Realm().objects(ToDoListModel.self)
-//    .sorted(byKeyPath: "createdAt", ascending: true)　→ loadToDoItemsのsortedAssendigを使う？
-//    var items: [ToDoListModel] = []
-//    lazy var toDoItems = realmRepository.loadToDoItems(date: toDoDate!, sortedAscending: isSortedeAscending)
-//    lazy var toDoList = ToDoList(toDoItems: toDoItems, toDoDate: toDoDate!)
+
     private let repository = RealmRepository()
+    private var toDoLists: [ToDoList] {
+        let singleToDoLists = repository.loadToDoList()
+        let sortedToDoLists = singleToDoLists.sorted { $0.toDoDate < $1.toDoDate } // TODO: コード理解必要
+           return sortedToDoLists
+       }
+
+    private var toDoItems: [[ToDoItem]] {
+        var items: [[ToDoItem]] = []
+        toDoLists.forEach { toDoList in
+            let singleToDoItems = repository.loadToDoItem(toDoList: toDoList)
+            let sortedToDoItems = singleToDoItems.sorted { $0.createdAt < $1.createdAt } // TODO: コード理解必要
+            items.append(sortedToDoItems)
+        }
+        return items
+    }
+    
     private var toDoList: ToDoList? {
         repository.loadToDoList(date: toDoDate)
-    }
-    private lazy var toDoLists = [self.toDoList]
-    private var toDoItems: [ToDoItem] {
-        guard let toDoList = toDoList else {
-            return []
-        }
-        return repository.loadToDoItem(toDoList: toDoList)
     }
     var toDoDate: Date = Date()
     var toDoDateString: String {
