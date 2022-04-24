@@ -27,13 +27,8 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
         return items
     }
     
-    private var toDoList: ToDoList? {
-        repository.loadToDoList(date: toDoDate)
-    }
     var toDoDate: Date = Date()
-    var toDoDateString: String {
-        DateFormatter.calendrDateFormatter().string(from: toDoList?.toDoDate ?? Date())
-    }
+   
     private var sectionTittle: [String]?  // TODO: toDoListsの要素であるtoDoListのtoDoDateを取り出して、それをStringに変換したものを配列にする。
     var isSortedeAscending = true
     var editIndexPath: IndexPath?
@@ -59,21 +54,19 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
 
     // https://i-app-tec.com/ios/tableview-section.html を参考
     func numberOfSections(in tableView: UITableView) -> Int {
-        if let sectionTittle = sectionTittle {
-            return sectionTittle.count
-        }
-        return 1
+        toDoLists.count
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        sectionTittle?[section] // // TODO: toDoListの各日付の表示
+        var toDoDateString: String {
+            DateFormatter.calendrDateFormatter().string(from: toDoLists[section].toDoDate)
+        }
+        return toDoDateString
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return self.results.count
-//        guard let toDoItems = toDoItems else { return 0 }
-//        return toDoItems.count
-        toDoItems.count // TODO: それぞれのtoDoListによって異なってくる
+        let singleToDoItems = repository.loadToDoItem(toDoList: toDoLists[section])
+        return singleToDoItems.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
