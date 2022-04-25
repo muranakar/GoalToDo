@@ -17,7 +17,7 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
            return sortedToDoLists
        }
 
-    private var toDoItems: [[ToDoItem]] {
+    private var toDoItems: [[ToDoItem]] { // [[uuid: a, isCheck: true],[uuid: b, isCheck: false]]
         var items: [[ToDoItem]] = []
         toDoLists.forEach { toDoList in
             let singleToDoItems = repository.loadToDoItem(toDoList: toDoList)
@@ -28,8 +28,6 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     var toDoDate: Date = Date()
-   
-    private var sectionTittle: [String]?  // TODO: toDoListsの要素であるtoDoListのtoDoDateを取り出して、それをStringに変換したものを配列にする。
     var isSortedeAscending = true
     var editIndexPath: IndexPath?
 
@@ -71,36 +69,30 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell1", for: indexPath) as! ToDoListXibTableViewCell
-////        let item = self.results[indexPath.row]
-//        guard let toDoItems = toDoItems else { return cell }
-//
-//        let item = toDoItems[indexPath.row]
-////        cell.checkImageView.image = item.check ? UIImage(named: "check") : UIImage(named: "uncheck")
-////        cell.detailedItemLabel.text = item.detailedItem
-//        // itemを書き込んだ日付を現在時刻(Date())から日本時間の現在時刻に変換しなければならない
-//        cell.checkImageView.image = item.isCheck ? UIImage(named: "check") : UIImage(named: "uncheck")
-//        cell.detailedItemLabel.text = item.toDoText
-        
-
+//        let item = self.results[indexPath.row]
+//        cell.checkImageView.image = item.check ? UIImage(named: "check") : UIImage(named: "uncheck")
+//        cell.detailedItemLabel.text = item.detailedItem
+// TODO: 以下コード解読必要 (なぜindexPath.rowを2回指定する必要があるか)
+        let items = toDoItems[indexPath.row]
+        let item = items[indexPath.row]
+        cell.checkImageView.image = item.isCheck ? UIImage(named: "check") : UIImage(named: "uncheck")
+        cell.detailedItemLabel.text = item.toDoText
         return cell
     }
 
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        editIndexPath = indexPath
-////        let item = self.results[indexPath.row]
-////        try! Realm().write {
-////            item.check = !item.check
-////        }
-//        guard let toDoItems = toDoItems else { return }
-//        var item = toDoItems[indexPath.row]
-//        item.isCheck = !item.isCheck
-//
-//        toDoList = ToDoList(toDoItems: [item], toDoDate: toDoDate)
-//        guard let toDoList = toDoList else { return }
-//        realmRepository.updateToDoList(toDoList: toDoList)
-//
-//        self.tableView.reloadRows(at: [indexPath], with: .automatic)
-//    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //        let item = self.results[indexPath.row]
+        //        try! Realm().write {
+        //            item.check = !item.check
+        //        }
+
+        editIndexPath = indexPath
+        let items = toDoItems[indexPath.row]
+        var item = items[indexPath.row]
+        item.isCheck = !item.isCheck
+        repository.updateToDoItem(toDoItem: item)
+        self.tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
 
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         performSegue(withIdentifier: "editSegue", sender: indexPath)
