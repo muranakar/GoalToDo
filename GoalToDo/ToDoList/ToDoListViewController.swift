@@ -120,9 +120,6 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
             case "editSegue":
             add.mode = AddListViewController.Mode.edit
                 if let indexPath = sender {
-//                    guard let toDoItems = toDoItems else { return }
-//                    let item = toDoItems[(indexPath as AnyObject).row]
-//                    add.toDoText = item.toDoText
                     let indexPath = indexPath as AnyObject
                     let items = toDoItems[indexPath.row]
                     let item = items[indexPath.row]
@@ -138,7 +135,7 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     @IBAction private func exitFromAddBySaveSegue(segue: UIStoryboardSegue) {
-//        if let add = segue.source as? AddListViewController {
+        if let add = segue.source as? AddListViewController {
 //            let newItem = ToDoListModel()
 //            newItem.detailedItem = add.detailedItemTextField.text ?? ""
 //            newItem.check = false
@@ -146,37 +143,31 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
 //            try! Realm().write {
 //                try! Realm().add(newItem)
 //            }
-//            toDoItems = [ToDoList.ToDoItem(
-//                toDoText: add.detailedItemTextField.text ?? "",
-//                isCheck: false, createdAt: Date())]
-//            guard let toDoItems = toDoItems else { return }
-//            toDoList = ToDoList(toDoItems: toDoItems, toDoDate: toDoDate)
-//            guard let toDoList = toDoList else { return }
-//            realmRepository.appendToDoList(toDoList: toDoList)
-//            self.tableView.reloadData()
-//        }
+            // TODO: どの日付にItemを追加するのかで処理が変わってくる。
+            // TODO: SectionTittleをタップさせて、その日付のCellに追加させるのか、新たに日付を追加して、その日付にCellを追加させるのか
+//            let newToDoItem = ToDoItem(
+//        toDoText: add.detailedItemTextField.text ?? "", isCheck: false, createdAt: Date())
+//            repository.appendToDoItem(toDoList: <#T##ToDoList#>, toDoItem: <#T##ToDoItem#>)
+            self.tableView.reloadData()
+        }
     }
 
     @IBAction private func exitFromEditByCancelSegue(segue: UIStoryboardSegue) {
     }
 
     @IBAction private func exitFromEditBySaveSegue(segue: UIStoryboardSegue) {
-//        if let add = segue.source as? AddListViewController {
-//            if let indexPath = editIndexPath {
+        if let add = segue.source as? AddListViewController {
+            if let indexPath = editIndexPath {
 //                try! Realm().write {
 //                    self.results[indexPath.row].detailedItem = add.detailedItemTextField.text ?? ""
 //                }
-//                guard let toDoItems = toDoItems else { return }
-//                var item = toDoItems[indexPath.row]
-//                item.toDoText = add.detailedItemTextField.text ?? ""
-//                toDoList = ToDoList(toDoItems: [item], toDoDate: toDoDate)
-//                guard let toDoList = toDoList else { return }
-//                realmRepository.updateToDoList(toDoList: toDoList)
-//
-//                self.tableView.reloadRows(at: [indexPath], with: .automatic)
-//            }
-//        }
-//    }
+                let items = toDoItems[indexPath.row]
+                var item = items[indexPath.row]
+                item.toDoText = add.detailedItemTextField.text ?? ""
+                repository.updateToDoItem(toDoItem: item)
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+        }
     }
 }
 
