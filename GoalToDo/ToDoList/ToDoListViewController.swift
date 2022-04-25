@@ -73,8 +73,8 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
 //        cell.checkImageView.image = item.check ? UIImage(named: "check") : UIImage(named: "uncheck")
 //        cell.detailedItemLabel.text = item.detailedItem
 // TODO: 以下コード解読必要 (なぜindexPath.rowを2回指定する必要があるか)
-        let items = toDoItems[indexPath.row]
-        let item = items[indexPath.row]
+        let items = toDoItems[indexPath.row] // Section選んで
+        let item = items[indexPath.row]     // Cell選んでるイメージ？
         cell.checkImageView.image = item.isCheck ? UIImage(named: "check") : UIImage(named: "uncheck")
         cell.detailedItemLabel.text = item.toDoText
         return cell
@@ -85,7 +85,6 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
         //        try! Realm().write {
         //            item.check = !item.check
         //        }
-
         editIndexPath = indexPath
         let items = toDoItems[indexPath.row]
         var item = items[indexPath.row]
@@ -98,24 +97,22 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
         performSegue(withIdentifier: "editSegue", sender: indexPath)
     }
 
-//    func tableView(_ tableView: UITableView,
-//                   commit editingStyle: UITableViewCell.EditingStyle,
-//                   forRowAt indexPath: IndexPath) {
-////        if editingStyle == .delete {
-////            try! Realm().write {
-////                try! Realm().delete(self.results[indexPath.row])
-////            }
-////            tableView.deleteRows(at: [indexPath], with: .automatic)
-////        }
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
 //        if editingStyle == .delete {
-//            guard let toDoItems = toDoItems else { return }
-//            let item = toDoItems[indexPath.row]
-//            toDoList = ToDoList(toDoItems: [item], toDoDate: toDoDate)
-//            guard let toDoList = toDoList else { return }
-//            realmRepository.removeToDoList(toDoList: toDoList)
+//            try! Realm().write {
+//                try! Realm().delete(self.results[indexPath.row])
+//            }
+//            tableView.deleteRows(at: [indexPath], with: .automatic)
 //        }
-//        tableView.deleteRows(at: [indexPath], with: .automatic)
-//    }
+        if editingStyle == .delete {
+            let items = toDoItems[indexPath.row]
+            let item = items[indexPath.row]
+            repository.removeToDoItem(toDoItem: item)
+        }
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+    }
 
 //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        if let add = (segue.destination as? UINavigationController)?.topViewController as? AddListViewController {
