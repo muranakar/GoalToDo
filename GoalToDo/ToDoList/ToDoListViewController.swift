@@ -104,8 +104,6 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
 //            try! Realm().write {
 //                try! Realm().delete(self.results[indexPath.row])
 //            }
-//            tableView.deleteRows(at: [indexPath], with: .automatic)
-//        }
         if editingStyle == .delete {
             let items = toDoItems[indexPath.row]
             let item = items[indexPath.row]
@@ -114,36 +112,40 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.deleteRows(at: [indexPath], with: .automatic)
     }
 
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if let add = (segue.destination as? UINavigationController)?.topViewController as? AddListViewController {
-//            switch segue.identifier ?? "" {
-//            case "addSegue":
-//            add.mode = AddListViewController.Mode.add
-//            case "editSegue":
-//            add.mode = AddListViewController.Mode.edit
-//                if let indexPath = sender {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let add = (segue.destination as? UINavigationController)?.topViewController as? AddListViewController {
+            switch segue.identifier ?? "" {
+            case "addSegue":
+            add.mode = AddListViewController.Mode.add
+            case "editSegue":
+            add.mode = AddListViewController.Mode.edit
+                if let indexPath = sender {
 //                    guard let toDoItems = toDoItems else { return }
 //                    let item = toDoItems[(indexPath as AnyObject).row]
 //                    add.toDoText = item.toDoText
-//                }
-//            default:
-//                break
-//            }
-//        }
-//    }
+                    let indexPath = indexPath as AnyObject
+                    let items = toDoItems[indexPath.row]
+                    let item = items[indexPath.row]
+                    add.toDoText = item.toDoText
+                }
+            default:
+                break
+            }
+        }
+    }
 
     @IBAction private func exitFromAddByCancelSegue(segue: UIStoryboardSegue) {
     }
 
     @IBAction private func exitFromAddBySaveSegue(segue: UIStoryboardSegue) {
 //        if let add = segue.source as? AddListViewController {
-////            let newItem = ToDoListModel()
-////            newItem.detailedItem = add.detailedItemTextField.text ?? ""
-////            newItem.check = false
-////
-////            try! Realm().write {
-////                try! Realm().add(newItem)
-////            }
+//            let newItem = ToDoListModel()
+//            newItem.detailedItem = add.detailedItemTextField.text ?? ""
+//            newItem.check = false
+//
+//            try! Realm().write {
+//                try! Realm().add(newItem)
+//            }
 //            toDoItems = [ToDoList.ToDoItem(
 //                toDoText: add.detailedItemTextField.text ?? "",
 //                isCheck: false, createdAt: Date())]
@@ -161,9 +163,9 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
     @IBAction private func exitFromEditBySaveSegue(segue: UIStoryboardSegue) {
 //        if let add = segue.source as? AddListViewController {
 //            if let indexPath = editIndexPath {
-////                try! Realm().write {
-////                    self.results[indexPath.row].detailedItem = add.detailedItemTextField.text ?? ""
-////                }
+//                try! Realm().write {
+//                    self.results[indexPath.row].detailedItem = add.detailedItemTextField.text ?? ""
+//                }
 //                guard let toDoItems = toDoItems else { return }
 //                var item = toDoItems[indexPath.row]
 //                item.toDoText = add.detailedItemTextField.text ?? ""
