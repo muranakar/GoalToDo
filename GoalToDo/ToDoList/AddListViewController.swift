@@ -8,7 +8,6 @@
 import UIKit
 
 class AddListViewController: UIViewController {
-
     enum Mode {
         case add
         case edit

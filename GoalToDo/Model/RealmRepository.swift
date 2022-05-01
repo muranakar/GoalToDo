@@ -43,7 +43,7 @@ class RealmToDoItem: Object {
     @objc dynamic var toDoText: String = ""
     @objc dynamic var isCheck: Bool = false
     @objc dynamic var createdAt: Date = Date()
-    let toDoItems = LinkingObjects(fromType: RealmToDoList.self, property: "toDoItems")
+    let toDoLists = LinkingObjects(fromType: RealmToDoList.self, property: "toDoItems")
 
     convenience init(uuid: UUID, toDoText: String, isCheck: Bool) {
         self.init()
@@ -216,13 +216,22 @@ struct RealmRepository {
     }
 
     func removeToDoItem(toDoItem: ToDoItem) {
-        guard let fetchedRealmtoDoItem = realm.object(
+        guard let loadedRealmtoDoItem = realm.object(
             ofType: RealmToDoItem.self,
             forPrimaryKey: toDoItem.uuidString
         ) else { return }
-        // swiftlint:disable:next force_cast
+
+        guard let realmToDoList = loadedRealmtoDoItem.toDoLists.first else {
+            return
+        }
+        let realmToDoItems = Array(realmToDoList.toDoItems)
+        let toDoItems = realmToDoItems.map { ToDoItem(managedObject: $0) }
+        if toDoItems.count == 1 {
+            let toDoList = ToDoList(managedObject: realmToDoList)
+            removeToDoList(toDoList: toDoList)
+        }
         try! realm.write {
-            realm.delete(fetchedRealmtoDoItem)
+            realm.delete(loadedRealmtoDoItem)
         }
     }
 }
