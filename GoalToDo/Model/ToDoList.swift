@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ToDoList {
+struct ToDoList :Hashable {
     var uuidString = UUID().uuidString
     var toDoDate: Date
 }

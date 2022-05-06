@@ -104,7 +104,7 @@ private extension ToDoItem {
 }
 
 struct RealmRepository {
-    private let realm = try! Realm()
+     private let realm = try! Realm()
     // MARK: - Goal共通型に関するRepository
     func loadGoal() -> Goal? {
         let realmGoal = realm.objects(RealmGoal.self)

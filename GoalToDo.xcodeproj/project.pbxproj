@@ -10,6 +10,8 @@
 		ACAFC6A4BF948A3F968606FA /* Pods_GoalToDo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE114205FA25F00954A7FD1C /* Pods_GoalToDo.framework */; };
 		B23D44D9280AFCD000F23366 /* PushDateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23D44D8280AFCD000F23366 /* PushDateTableViewCell.swift */; };
 		B23D44DB280AFCF700F23366 /* ToDoItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23D44DA280AFCF700F23366 /* ToDoItemTableViewCell.swift */; };
+		B25D85EC2824AD030027FA0D /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B25D85EB2824AD030027FA0D /* Setting.storyboard */; };
+		B25D85EF2824ADD00027FA0D /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25D85EE2824ADD00027FA0D /* SettingViewController.swift */; };
 		B273E64C280A52AB00934310 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B273E64B280A52AB00934310 /* Goal.swift */; };
 		B273E64E280A52B800934310 /* ToDoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B273E64D280A52B800934310 /* ToDoList.swift */; };
 		B28BFF86280E046F00EBECAA /* DummyRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28BFF85280E046F00EBECAA /* DummyRepository.swift */; };
@@ -37,6 +39,8 @@
 		7E0E4B860C77A11ED54F0AB8 /* Pods-GoalToDo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoalToDo.release.xcconfig"; path = "Target Support Files/Pods-GoalToDo/Pods-GoalToDo.release.xcconfig"; sourceTree = "<group>"; };
 		B23D44D8280AFCD000F23366 /* PushDateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushDateTableViewCell.swift; sourceTree = "<group>"; };
 		B23D44DA280AFCF700F23366 /* ToDoItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemTableViewCell.swift; sourceTree = "<group>"; };
+		B25D85EB2824AD030027FA0D /* Setting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Setting.storyboard; sourceTree = "<group>"; };
+		B25D85EE2824ADD00027FA0D /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		B273E64B280A52AB00934310 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		B273E64D280A52B800934310 /* ToDoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoList.swift; sourceTree = "<group>"; };
 		B28BFF85280E046F00EBECAA /* DummyRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyRepository.swift; sourceTree = "<group>"; };
@@ -76,6 +80,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B25D85ED2824AD110027FA0D /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				B25D85EB2824AD030027FA0D /* Setting.storyboard */,
+				B25D85EE2824ADD00027FA0D /* SettingViewController.swift */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
 		D35BA03527FFCC8A007B7B0D /* Goal */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +160,7 @@
 				D35BA03527FFCC8A007B7B0D /* Goal */,
 				D35BA03727FFCD27007B7B0D /* ToDoCalendar */,
 				D35BA03627FFCCB1007B7B0D /* ToDoList */,
+				B25D85ED2824AD110027FA0D /* Setting */,
 				D3629BA327FEB23F0010342D /* AppDelegate.swift */,
 				D3629BA527FEB23F0010342D /* SceneDelegate.swift */,
 				D3629BA927FEB23F0010342D /* Main.storyboard */,
@@ -242,6 +256,7 @@
 				D3629BCA27FEB2F90010342D /* ToDoCalendar.storyboard in Resources */,
 				D3629BAB27FEB23F0010342D /* Main.storyboard in Resources */,
 				D3629BCC27FEB3020010342D /* ToDoList.storyboard in Resources */,
+				B25D85EC2824AD030027FA0D /* Setting.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,6 +331,7 @@
 				D3629BA427FEB23F0010342D /* AppDelegate.swift in Sources */,
 				D3629BB827FEB27F0010342D /* GoalViewController.swift in Sources */,
 				B273E64E280A52B800934310 /* ToDoList.swift in Sources */,
+				B25D85EF2824ADD00027FA0D /* SettingViewController.swift in Sources */,
 				D3629BC227FEB2C20010342D /* AddListViewController.swift in Sources */,
 				D3629BBA27FEB28D0010342D /* EditGoalViewController.swift in Sources */,
 				B23D44DB280AFCF700F23366 /* ToDoItemTableViewCell.swift in Sources */,
