@@ -42,13 +42,41 @@ class EditToDoCalendarViewController: UIViewController, UITextViewDelegate {
 
     @IBAction private func editToDoItems(_ sender: Any) {
         let toDoItem = ToDoItem(toDoText: toDoItemTextField.text!, isCheck: false, createdAt: Date())
+
         if let toDoList = toDoList {
             repository.appendToDoItem(toDoList: toDoList, toDoItem: toDoItem)
+            //　すでにToDoListが作成されている場合の通知処理
+            if ToDoListNotificationRepository().loadNotificationDate() != nil && ToDoListNotificationRepository().loadIsNotification() == true {
+                ToDoListNotification.addNotificationToDoListDate(
+                    toDoList: toDoList,
+                    toDoItems: repository.loadToDoItem(toDoList: toDoList),
+                    specifiedDate: ToDoListNotificationRepository().loadNotificationDate()!
+                )
+                // 通知設定されているかの確認
+                UNUserNotificationCenter.current().getPendingNotificationRequests { notification in
+                    print(notification)
+                    print("既存ToDoListでNotification作成")
+                }
+            }
         } else {
             let newToDoList = ToDoList(toDoDate: pushedDate)
             repository.appendToDoList(toDoList: newToDoList)
             repository.appendToDoItem(toDoList: newToDoList, toDoItem: toDoItem)
+            // 新規でToDoListが作成された場合の、通知の追加処理
+            if ToDoListNotificationRepository().loadNotificationDate() != nil && ToDoListNotificationRepository().loadIsNotification() == true {
+                ToDoListNotification.addNotificationToDoListDate(
+                    toDoList: newToDoList,
+                    toDoItems: repository.loadToDoItem(toDoList: newToDoList),
+                    specifiedDate: ToDoListNotificationRepository().loadNotificationDate()!
+                )
+            }
+            // 通知設定されているかの確認
+            UNUserNotificationCenter.current().getPendingNotificationRequests { notification in
+                print(notification)
+                print("新規ToDoListでNotification作成")
+            }
         }
+
         performSegue(withIdentifier: "backToToDoCalendarViewControllerWithSegue", sender: nil)
     }
 }

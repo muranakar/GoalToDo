@@ -30,24 +30,41 @@ class SettingViewController: UIViewController {
         [ToDoList: [ToDoItem]](uniqueKeysWithValues: zip(toDoLists, toDoItems))
     }
     @IBOutlet weak private var datePicker: UIDatePicker!
+    @IBOutlet weak private var notificationSwitch: UISwitch!
+// この初期値は設定する必要性はない。
+    private var isNotification: Bool = true
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        ToDoListNotificationRepository().saveIsNotification(isNotification: true)
+        isNotification = ToDoListNotificationRepository().loadIsNotification()
+        notificationSwitch.isOn = isNotification
     }
 
     @IBAction private func notifySpecifiedTime(_ sender: Any) {
         dictionaryToDoListAndToDoItems.forEach { (key: ToDoList, value: [ToDoItem]) in
-            notificationToDoListDate(toDoList: key, toDoItems: value, specifiedDate: datePicker.date)
+            addAfterAllRemoveNotificationToDoListDate(toDoList: key, toDoItems: value, specifiedDate: datePicker.date)
         }
         UNUserNotificationCenter.current().getPendingNotificationRequests { notification in
             print(notification)
         }
     }
+    @IBAction private func switchIsNotification(_ sender: Any) {
+        isNotification.toggle()
+        ToDoListNotificationRepository().saveIsNotification(isNotification: isNotification)
+        notificationSwitch.isOn = isNotification
+    }
 
-    func notificationToDoListDate(
+    func addAfterAllRemoveNotificationToDoListDate(
             toDoList: ToDoList,
             toDoItems: [ToDoItem],
             specifiedDate: Date
         ) {
+            // まず登録済みの通知を全て削除。
+            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+            // pickerViewで登録したDate型を保存
+            ToDoListNotificationRepository().saveNotificationDate(notificationDate: specifiedDate)
+            // その後に、登録処理を行う。
             let format = DateFormatter()
             format.dateFormat = "yyyy/MM/dd/HH/mm/ss"
             format.locale = Locale(identifier: "ja_JP")
