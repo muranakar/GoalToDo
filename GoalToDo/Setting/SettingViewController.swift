@@ -38,7 +38,7 @@ class SettingViewController: UIViewController {
         dictionaryToDoListAndToDoItems.forEach { (key: ToDoList, value: [ToDoItem]) in
             notificationToDoListDate(toDoList: key, toDoItems: value, specifiedDate: datePicker.date)
         }
-        UNUserNotificationCenter.current().getPendingNotificationRequests { (notification) in
+        UNUserNotificationCenter.current().getPendingNotificationRequests { notification in
             print(notification)
         }
     }
@@ -73,7 +73,7 @@ class SettingViewController: UIViewController {
             print("minute", minute)
             print("second", second)
             // 直接日時を設定
-            let triggerDate = DateComponents(month: month, day: day, hour:hour, minute:minute, second: second)
+            let triggerDate = DateComponents(month: month, day: day, hour: hour, minute:minute, second: second)
             let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
 
             // 通知コンテンツの作成
