@@ -8,7 +8,7 @@
 import UIKit
 
 class SettingViewController: UIViewController {
-    private var request:UNNotificationRequest!
+    private var request: UNNotificationRequest!
     private let repository = RealmRepository()
     private var toDoLists: [ToDoList] {
         let singleToDoLists = repository.loadToDoList()
@@ -37,6 +37,9 @@ class SettingViewController: UIViewController {
     @IBAction private func notifySpecifiedTime(_ sender: Any) {
         dictionaryToDoListAndToDoItems.forEach { (key: ToDoList, value: [ToDoItem]) in
             notificationToDoListDate(toDoList: key, toDoItems: value, specifiedDate: datePicker.date)
+        }
+        UNUserNotificationCenter.current().getPendingNotificationRequests { (notification) in
+            print(notification)
         }
     }
 
@@ -70,7 +73,7 @@ class SettingViewController: UIViewController {
             print("minute", minute)
             print("second", second)
             // 直接日時を設定
-            let triggerDate = DateComponents(month: month, day:day, hour:hour, minute:minute, second: second)
+            let triggerDate = DateComponents(month: month, day: day, hour:hour, minute:minute, second: second)
             let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
 
             // 通知コンテンツの作成
@@ -78,10 +81,10 @@ class SettingViewController: UIViewController {
             content.title = "GoalTODO"
             content.body = "\(toDoItems.count)個　やることリストがあります。"
             content.sound = UNNotificationSound.default
-
             // 通知リクエストの作成
-            request = UNNotificationRequest.init(
-                identifier: UUID().uuidString,
+            // identifierをtoDoListのDate型の文字列型に変更。
+            let request = UNNotificationRequest.init(
+                identifier: format.string(from: toDoList.toDoDate),
                 content: content,
                 trigger: trigger)
             // 通知リクエストの登録
