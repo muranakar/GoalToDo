@@ -12,7 +12,8 @@ import CalculateCalendarLogic
 final class ToDoCalendarViewController: UIViewController {
     private let repository = RealmRepository()
     private var pushDateToDoList: ToDoList? {
-        repository.loadToDoList(date: pushDate)
+        guard let pushDate = pushDate else { return nil }
+        return repository.loadToDoList(date: pushDate)
     }
     private var pushDateToDoItems: [ToDoItem] {
         guard let pushDateToDoList = pushDateToDoList else {
@@ -21,12 +22,17 @@ final class ToDoCalendarViewController: UIViewController {
         return repository.loadToDoItem(toDoList: pushDateToDoList)
     }
 
-    var pushDate = Date()
-    var pushDateString: String { DateFormatter.calendrDateFormatter().string(from: pushDate) }
+    private var pushDate: Date?
+    var pushDateString: String? {
+        guard let pushDate = pushDate else { return nil }
+        return DateFormatter.calendrDateFormatter().string(from: pushDate) }
     private let gregorian = Calendar(identifier: .gregorian)
 
     @IBOutlet private weak var calendarView: FSCalendar!
     @IBAction private func editButtonPushed(_ sender: Any) {
+        guard pushDate != nil else {
+            return presentAlert(title: "エラー", message: "日付を選択してください")
+        }
         self.performSegue(withIdentifier: "ToDiary", sender: nil)
     }
     @IBOutlet private weak var toDoItemsTableView: UITableView!
@@ -39,6 +45,13 @@ final class ToDoCalendarViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
 
+    func presentAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(defaultAction)
+        present(alert, animated: true, completion: nil)
+    }
+
     // MARK: - 画面遷移
     @IBSegueAction
     func makeEditToDoCalender(
@@ -46,6 +59,7 @@ final class ToDoCalendarViewController: UIViewController {
         sender: Any?,
         segueIdentifier: String?
     ) -> EditToDoCalendarViewController? {
+        guard let pushDate = pushDate else { return nil }
         return .init(coder: coder, pushDate: pushDate)
     }
     @IBAction private func backToToDoCalendarViewController(segue: UIStoryboardSegue) {
@@ -64,7 +78,10 @@ extension ToDoCalendarViewController: UITableViewDataSource {
                 withIdentifier: "pushDateCell",
                 for: indexPath
             ) as! PushDateTableViewCell
+            if let pushDateString = pushDateString {
             pushDateCell.configure(labelText: pushDateString)
+            return pushDateCell
+            }
             return pushDateCell
         default:
             let toDOItemCell = tableView.dequeueReusableCell(

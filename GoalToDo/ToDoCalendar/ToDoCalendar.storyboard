@@ -103,7 +103,6 @@
                         <barButtonItem key="rightBarButtonItem" image="square.and.pencil" catalog="system" id="8Db-lW-MFs">
                             <connections>
                                 <action selector="editButtonPushed:" destination="Y6W-OH-hqX" id="Ao6-2k-IrO"/>
-                                <segue destination="DGI-wd-koZ" kind="show" identifier="editToDoItem" destinationCreationSelector="makeEditToDoCalenderWithCoder:sender:segueIdentifier:" id="qs9-cG-2h4"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -111,6 +110,7 @@
                     <connections>
                         <outlet property="calendarView" destination="Qdh-nT-SsT" id="nja-PD-aPz"/>
                         <outlet property="toDoItemsTableView" destination="5HQ-cy-uqm" id="hBR-x9-jcU"/>
+                        <segue destination="DGI-wd-koZ" kind="presentation" identifier="ToDiary" destinationCreationSelector="makeEditToDoCalenderWithCoder:sender:segueIdentifier:" modalPresentationStyle="fullScreen" id="VlR-8q-T1m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -126,7 +126,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iqV-Qs-Gdn">
-                                <rect key="frame" x="207" y="98" width="0.0" height="0.0"/>
+                                <rect key="frame" x="207" y="54" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
