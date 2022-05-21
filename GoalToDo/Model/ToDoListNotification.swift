@@ -33,13 +33,13 @@ struct ToDoListNotification {
         let hour = Int(separatedFormatSpecifiedDate[3])!
         let minute = Int(separatedFormatSpecifiedDate[4])!
         let second = Int(separatedFormatSpecifiedDate[5])!
-        print("month", month)
-        print("day", day)
-        print("hour", hour)
-        print("minute", minute)
-        print("second", second)
+//        print("month", month)
+//        print("day", day)
+//        print("hour", hour)
+//        print("minute", minute)
+//        print("second", second)
         // 直接日時を設定
-        let triggerDate = DateComponents(month: month, day: day, hour: hour, minute:minute, second: second)
+        let triggerDate = DateComponents(month: month, day: day, hour: hour, minute: minute, second: second)
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
 
         // 通知コンテンツの作成

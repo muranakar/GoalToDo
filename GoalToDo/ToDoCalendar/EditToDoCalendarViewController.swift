@@ -16,8 +16,6 @@ class EditToDoCalendarViewController: UIViewController, UITextViewDelegate {
     private var toDoItems: [ToDoItem]
     @IBOutlet weak private var selectDateLabel: UILabel!
     @IBOutlet weak private var toDoItemTextField: UITextField!
-    // TODO: TODOリストに変更
-    // TODO: 編集データ保存　Repository
     required init?(coder: NSCoder, pushDate: Date) {
         self.pushedDate = pushDate
         self.toDoList = repository.loadToDoList(date: pushDate)
@@ -42,41 +40,43 @@ class EditToDoCalendarViewController: UIViewController, UITextViewDelegate {
 
     @IBAction private func editToDoItems(_ sender: Any) {
         let toDoItem = ToDoItem(toDoText: toDoItemTextField.text!, isCheck: false, createdAt: Date())
-
         if let toDoList = toDoList {
+            // すでに保存しているToDoListの中に、ToDoItemを追加する。
             repository.appendToDoItem(toDoList: toDoList, toDoItem: toDoItem)
             //　すでにToDoListが作成されている場合の通知処理
-            if ToDoListNotificationRepository().loadNotificationDate() != nil && ToDoListNotificationRepository().loadIsNotification() == true {
-                ToDoListNotification.addNotificationToDoListDate(
-                    toDoList: toDoList,
-                    toDoItems: repository.loadToDoItem(toDoList: toDoList),
-                    specifiedDate: ToDoListNotificationRepository().loadNotificationDate()!
-                )
-                // 通知設定されているかの確認
-                UNUserNotificationCenter.current().getPendingNotificationRequests { notification in
-                    print(notification)
-                    print("既存ToDoListでNotification作成")
-                }
-            }
+            addNofitycationToDoListIfConditionsAreMet(
+                toDoList: toDoList,
+                toDoItems: repository.loadToDoItem(toDoList: toDoList)
+            )
         } else {
+            // 新規で作成したToDoListの中に、ToDoItemを追加する
             let newToDoList = ToDoList(toDoDate: pushedDate)
             repository.appendToDoList(toDoList: newToDoList)
             repository.appendToDoItem(toDoList: newToDoList, toDoItem: toDoItem)
-            // 新規でToDoListが作成された場合の、通知の追加処理
-            if ToDoListNotificationRepository().loadNotificationDate() != nil && ToDoListNotificationRepository().loadIsNotification() == true {
-                ToDoListNotification.addNotificationToDoListDate(
-                    toDoList: newToDoList,
-                    toDoItems: repository.loadToDoItem(toDoList: newToDoList),
-                    specifiedDate: ToDoListNotificationRepository().loadNotificationDate()!
-                )
-            }
-            // 通知設定されているかの確認
-            UNUserNotificationCenter.current().getPendingNotificationRequests { notification in
-                print(notification)
-                print("新規ToDoListでNotification作成")
-            }
+            // 新規でToDoListが作成された場合の、通知処理
+            addNofitycationToDoListIfConditionsAreMet(
+                toDoList: newToDoList,
+                toDoItems: repository.loadToDoItem(toDoList: newToDoList)
+            )
         }
-
+        // 通知設定されているかの確認
+        UNUserNotificationCenter.current().getPendingNotificationRequests { notification in
+            print("登録通知確認", notification)
+        }
         performSegue(withIdentifier: "backToToDoCalendarViewControllerWithSegue", sender: nil)
+    }
+}
+
+func addNofitycationToDoListIfConditionsAreMet(
+    toDoList: ToDoList,
+    toDoItems: [ToDoItem]
+) {
+    if ToDoListNotificationRepository().loadNotificationDate() != nil
+        && ToDoListNotificationRepository().loadIsNotification() == true {
+        ToDoListNotification.addNotificationToDoListDate(
+            toDoList: toDoList,
+            toDoItems: toDoItems,
+            specifiedDate: ToDoListNotificationRepository().loadNotificationDate()!
+        )
     }
 }

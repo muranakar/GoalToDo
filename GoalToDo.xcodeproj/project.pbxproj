@@ -16,6 +16,7 @@
 		B273E64E280A52B800934310 /* ToDoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B273E64D280A52B800934310 /* ToDoList.swift */; };
 		B28BFF86280E046F00EBECAA /* DummyRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28BFF85280E046F00EBECAA /* DummyRepository.swift */; };
 		B28BFF88280E071E00EBECAA /* DummyToDoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28BFF87280E071E00EBECAA /* DummyToDoList.swift */; };
+		B2C09FDD2838797300985370 /* LaunchUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C09FDC2838797300985370 /* LaunchUtil.swift */; };
 		B2FC8CB828345CEB000ABF08 /* IsNotificationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FC8CB728345CEB000ABF08 /* IsNotificationRepository.swift */; };
 		B2FC8CBA2834608F000ABF08 /* ToDoListNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FC8CB92834608E000ABF08 /* ToDoListNotification.swift */; };
 		D3629BA427FEB23F0010342D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3629BA327FEB23F0010342D /* AppDelegate.swift */; };
@@ -47,6 +48,7 @@
 		B273E64D280A52B800934310 /* ToDoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoList.swift; sourceTree = "<group>"; };
 		B28BFF85280E046F00EBECAA /* DummyRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyRepository.swift; sourceTree = "<group>"; };
 		B28BFF87280E071E00EBECAA /* DummyToDoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyToDoList.swift; sourceTree = "<group>"; };
+		B2C09FDC2838797300985370 /* LaunchUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchUtil.swift; sourceTree = "<group>"; };
 		B2FC8CB728345CEB000ABF08 /* IsNotificationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsNotificationRepository.swift; sourceTree = "<group>"; };
 		B2FC8CB92834608E000ABF08 /* ToDoListNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListNotification.swift; sourceTree = "<group>"; };
 		CE114205FA25F00954A7FD1C /* Pods_GoalToDo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoalToDo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,6 +139,7 @@
 				B28BFF87280E071E00EBECAA /* DummyToDoList.swift */,
 				B2FC8CB728345CEB000ABF08 /* IsNotificationRepository.swift */,
 				B2FC8CB92834608E000ABF08 /* ToDoListNotification.swift */,
+				B2C09FDC2838797300985370 /* LaunchUtil.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				D3629BB827FEB27F0010342D /* GoalViewController.swift in Sources */,
 				B273E64E280A52B800934310 /* ToDoList.swift in Sources */,
 				B25D85EF2824ADD00027FA0D /* SettingViewController.swift in Sources */,
+				B2C09FDD2838797300985370 /* LaunchUtil.swift in Sources */,
 				D3629BC227FEB2C20010342D /* AddListViewController.swift in Sources */,
 				D3629BBA27FEB28D0010342D /* EditGoalViewController.swift in Sources */,
 				B23D44DB280AFCF700F23366 /* ToDoItemTableViewCell.swift in Sources */,
