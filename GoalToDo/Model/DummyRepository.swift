@@ -5,10 +5,10 @@
 //  Created by 澤田世那 on 2022/04/01.
 //
 //
-//import Foundation
-//import RealmSwift
+// import Foundation
+// import RealmSwift
 //
-//class RealmGoal: Object {
+// class RealmGoal: Object {
 //    @objc dynamic var uuidString: String = ""
 //    @objc dynamic var goalText: String = ""
 //    @objc dynamic var goalDate: Date = Date()
@@ -22,9 +22,9 @@
 //    override class func primaryKey() -> String? {
 //        "uuidString"
 //    }
-//}
+// }
 //
-//class RealmToDoList: Object {
+// class RealmToDoList: Object {
 //    @objc dynamic var uuidString: String = ""
 //    var toDoItems = List<RealmToDoItem>()
 //    @objc dynamic var toDoDate: Date = Date()
@@ -36,9 +36,9 @@
 //    override class func primaryKey() -> String? {
 //        "uuidString"
 //    }
-//}
+// }
 //
-//class RealmToDoItem: Object {
+// class RealmToDoItem: Object {
 //    @objc dynamic var uuidString: String = ""
 //    @objc dynamic var toDoText: String = ""
 //    @objc dynamic var isCheck: Bool = false
@@ -51,9 +51,9 @@
 //        self.toDoText = toDoText
 //        self.isCheck = isCheck
 //    }
-//}
+// }
 //
-//private extension Goal {
+// private extension Goal {
 //    init(managedObject: RealmGoal) {
 //        self.uuidString = managedObject.uuidString
 //        self.goalText = managedObject.goalText
@@ -67,9 +67,9 @@
 //        realmGoal.goalDate = self.goalDate
 //        return realmGoal
 //    }
-//}
+// }
 //
-//private extension ToDoList {
+// private extension ToDoList {
 //    init(managedObject: RealmToDoList) {
 //        self.uuidString = managedObject.uuidString
 //        self.toDoDate = managedObject.toDoDate
@@ -89,8 +89,8 @@
 //        print(realmToDoList.toDoItems)
 //        return realmToDoList
 //    }
-//}
-//private extension ToDoList.ToDoItem {
+// }
+// private extension ToDoList.ToDoItem {
 //    init(managedObject: RealmToDoItem) {
 //        self.uuidString = managedObject.uuidString
 //        self.isCheck = managedObject.isCheck
@@ -106,9 +106,9 @@
 //        realmToDoItem.createdAt = self.createdAt
 //        return realmToDoItem
 //    }
-//}
+// }
 //
-//struct RealmRepository {
+// struct RealmRepository {
 //    private let realm = try! Realm()
 //    // MARK: - Goal共通型に関するRepository
 //    func loadGoal() -> Goal? {
@@ -235,9 +235,9 @@
 //        }
 //    }
 //
-//}
+// }
 //
-//private extension DateFormatter {
+// private extension DateFormatter {
 //    static func realmFilterDateFormatter() -> Self {
 //        let formatter = DateFormatter()
 //        formatter.dateFormat = DateFormatter.dateFormat(
@@ -248,20 +248,20 @@
 //        formatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
 //        return formatter as! Self
 //    }
-//}
-//// MARK: - せなさんコード
-//class ToDoListModel: Object {
+// }
+// // MARK: - せなさんコード
+// class ToDoListModel: Object {
 //    @objc dynamic var detailedItem = ""
 //    @objc dynamic var check = false
 //    @objc dynamic var createdAt = Date()
-//}
+// }
 //
-//class DiaryModel: Object {
+// class DiaryModel: Object {
 //    @objc dynamic var calendarDate: String = ""
 //    @objc dynamic var diaryText: String = ""
 //    open var primaryKey: String {
-//        // TODO: 解読
+//
 //        return "calendarDate"
 //    }
-//}
+// }
 //

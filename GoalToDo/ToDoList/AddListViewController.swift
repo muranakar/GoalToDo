@@ -21,8 +21,7 @@ class AddListViewController: UIViewController {
             detailedItemTextField.text = toDoText
         }
     }
-    @IBOutlet weak var detailedItemTextField: UITextField!
-    
+    @IBOutlet weak private var detailedItemTextField: UITextField!
     @IBAction private func saveButtonAction(_ sender: Any) {
         if mode == .add {
             let identifier = "exitFromAddBySaveSegue"

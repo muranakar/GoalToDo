@@ -33,7 +33,6 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "ToDoListXibTableViewCell", bundle: nil), forCellReuseIdentifier: "Cell1")
-        tableView.backgroundColor = UIColor.clear
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -67,8 +66,11 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell1", for: indexPath) as! ToDoListXibTableViewCell
         let item = toDoItems[indexPath.section][indexPath.row]
-        cell.checkImageView.image = item.isCheck ? UIImage(named: "check") : UIImage(named: "uncheck")
-        cell.detailedItemLabel.text = item.toDoText
+        cell.configureCell(
+            checkImage: UIImage(named: "check"),
+            uncheckImage: UIImage(named: "uncheck"),
+            todoItem: item
+        )
         return cell
     }
 

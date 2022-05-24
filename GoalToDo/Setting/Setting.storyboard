@@ -16,22 +16,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="fhT-2i-s5A">
-                                <rect key="frame" x="0.0" y="430" width="414" height="162"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" style="wheels" translatesAutoresizingMaskIntoConstraints="NO" id="fhT-2i-s5A">
+                                <rect key="frame" x="0.0" y="275" width="414" height="162"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="162" id="Xty-6g-s7z"/>
+                                </constraints>
                             </datePicker>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gDO-Wd-CAS">
-                                <rect key="frame" x="98" y="260" width="219" height="77"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="通知ボタン"/>
-                                <connections>
-                                    <action selector="notifySpecifiedTime:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="rtg-ff-PQ1"/>
-                                </connections>
-                            </button>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W7V-rd-oUd">
-                                <rect key="frame" x="184" y="354" width="49" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W7V-rd-oUd">
+                                <rect key="frame" x="183.5" y="144" width="49" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="47" id="Swb-uc-yj2"/>
+                                    <constraint firstAttribute="height" constant="31" id="TyO-VY-clF"/>
+                                </constraints>
                                 <connections>
                                     <action selector="switchIsNotification:" destination="Y6W-OH-hqX" eventType="valueChanged" id="len-FM-uHH"/>
                                 </connections>
@@ -39,6 +35,13 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="W7V-rd-oUd" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="2c0-EL-8cW"/>
+                            <constraint firstItem="fhT-2i-s5A" firstAttribute="top" secondItem="W7V-rd-oUd" secondAttribute="bottom" constant="100" id="I7B-16-awx"/>
+                            <constraint firstItem="W7V-rd-oUd" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="100" id="PCh-sA-3v4"/>
+                            <constraint firstItem="fhT-2i-s5A" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="b0e-QR-MZ8"/>
+                            <constraint firstItem="fhT-2i-s5A" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="bQF-lh-qSp"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="datePicker" destination="fhT-2i-s5A" id="qCC-f7-B1U"/>

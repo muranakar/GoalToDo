@@ -17,7 +17,7 @@ struct ToDoListNotification {
         let format = DateFormatter()
         format.dateFormat = "yyyy/MM/dd/HH/mm/ss"
         format.locale = Locale(identifier: "ja_JP")
-        // TODO:: ２つのDateをDateフォーマットして、分ける。
+        // ２つのDateをDateフォーマットして、分ける。
         let formatToDoListDate = format.string(from: toDoList.toDoDate)
         print("todolist", formatToDoListDate)
         let separatedFormatToDoListDate: [String] = formatToDoListDate.components(separatedBy: "/")
@@ -25,11 +25,11 @@ struct ToDoListNotification {
         print("specified", formatSpecifiedDate)
         let separatedFormatSpecifiedDate: [String] = formatSpecifiedDate.components(separatedBy: "/")
 
-        // TODO:: TODOLISTのDateを月・日を指定する。
+        // TODOLISTのDateを月・日を指定する。
         let month = Int(separatedFormatToDoListDate[1])!
         let day = Int(separatedFormatToDoListDate[2])!
 
-        //  TODO:: 指定されたのDateを時間・分を指定する。
+        // 指定されたのDateを時間・分を指定する。
         let hour = Int(separatedFormatSpecifiedDate[3])!
         let minute = Int(separatedFormatSpecifiedDate[4])!
         let second = Int(separatedFormatSpecifiedDate[5])!
