@@ -35,7 +35,6 @@ class SettingViewController: UIViewController {
     private var isNotification: Bool = true
     override func viewDidLoad() {
         super.viewDidLoad()
-
         switch LaunchUtil.launchStatus {
         case .firstLaunch:
             print("初回起動")
@@ -54,6 +53,7 @@ class SettingViewController: UIViewController {
             isNotification = ToDoListNotificationRepository().loadIsNotification()
             notificationSwitch.isOn = isNotification
         }
+        configureDatePicker()
     }
 
     @IBAction private func switchIsNotification(_ sender: Any) {
@@ -70,6 +70,7 @@ class SettingViewController: UIViewController {
                     specifiedDate: datePicker.date
                 )
             }
+            ToDoListNotificationRepository().saveNotificationDate(notificationDate: datePicker.date)
         } else {
             //　通知削除処理
             UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
@@ -78,5 +79,10 @@ class SettingViewController: UIViewController {
         UNUserNotificationCenter.current().getPendingNotificationRequests { notification in
             print("通知リスト", notification)
         }
+    }
+
+    private func configureDatePicker() {
+        guard let loadedDate = ToDoListNotificationRepository().loadNotificationDate() else { return }
+        datePicker.date = loadedDate
     }
 }
